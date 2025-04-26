@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>PlaywrightProxyManager</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <OutputPath>build/</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Remove="proxy-list.txt" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
+    <ProjectReference Include="../../kcg-xlib/lib-io/lib-io.csproj" />
+    <ProjectReference Include="../proxy-config/playwright-proxy-config.csproj" />
+    <ProjectReference Include="../../kcg-xlib/lib-log/lib-log.csproj" />
+    <ProjectReference Include="../utility/network/network.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
+    <kcgXlibPath>../../kcg-xlib</kcgXlibPath>
+  </PropertyGroup>
+
+  <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
+
+  <Target Name="BuildLogTask" BeforeTargets="PostBuildEvent">
+    <PropertyGroup>
+      <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
+    </PropertyGroup>
+
+    <BuildLogTask
+            EventName="BuildLog"
+            LogFile="$(kcgXlibPath)/build-log/data/logs-build/build-log.json"
+            BuildStart="$(BuildStartTimeUtc)"
+            BuildEnd="$(BuildEndTimeUtc)"
+    />
+  </Target>
+</Project>

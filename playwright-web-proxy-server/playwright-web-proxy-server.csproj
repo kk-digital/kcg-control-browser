@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <RootNamespace>playwright_web_proxy_server</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <OutputPath>build/</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Playwright" Version="1.47.0" />
+    <PackageReference Include="Titanium.Web.Proxy" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
+    <ProjectReference Include="../utility/warc-tools/warc-tools.csproj" />
+    <ProjectReference Include="../utility/app-settings/app-settings.csproj" />
+    <ProjectReference Include="../utility/basement/utility.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
+    <kcgXlibPath>../../kcg-xlib</kcgXlibPath>
+  </PropertyGroup>
+
+  <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
+
+  <Target Name="BuildLogTask" BeforeTargets="PostBuildEvent">
+    <PropertyGroup>
+      <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
+    </PropertyGroup>
+
+    <BuildLogTask
+            EventName="BuildLog"
+            LogFile="$(kcgXlibPath)/build-log/data/logs-build/build-log.json"
+            BuildStart="$(BuildStartTimeUtc)"
+            BuildEnd="$(BuildEndTimeUtc)"
+    />
+  </Target>
+</Project>

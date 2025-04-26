@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RootNamespace>UtilityWarcTools</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <OutputPath>build/</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Titanium.Web.Proxy" Version="3.2.0" />
+    <ProjectReference Include="../../../kcg-xlib/build-log/build-log.csproj" />
+    <ProjectReference Include="../../../kcg-xlib/lib-io/lib-io.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
+    <kcgXlibPath>../../../kcg-xlib</kcgXlibPath>
+  </PropertyGroup>
+
+  <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
+
+  <Target Name="BuildLogTask" BeforeTargets="PostBuildEvent">
+    <PropertyGroup>
+      <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
+    </PropertyGroup>
+
+    <BuildLogTask
+            EventName="BuildLog"
+            LogFile="$(kcgXlibPath)/build-log/data/logs-build/build-log.json"
+            BuildStart="$(BuildStartTimeUtc)"
+            BuildEnd="$(BuildEndTimeUtc)"
+    />
+  </Target>
+</Project>
