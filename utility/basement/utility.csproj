@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <OutputPath>build/</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.4.0" />
+    <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
+    <PackageReference Include="Titanium.Web.Proxy" Version="3.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../kcg-xlib/lib-log/lib-log.csproj" />
+    <ProjectReference Include="../network/network.csproj" />
+    <ProjectReference Include="../../../kcg-xlib/lib-io/lib-io.csproj" />
+    <ProjectReference Include="../../../kcg-xlib/build-log/build-log.csproj" />
+  </ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="HtmlAgilityPack">
+			<HintPath>../../library/htmlagilitypack/1.11.67/lib/netstandard2.0/HtmlAgilityPack.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+  <PropertyGroup>
+    <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
+    <kcgXlibPath>../../../kcg-xlib</kcgXlibPath>
+  </PropertyGroup>
+
+  <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
+
+  <Target Name="BuildLogTask" BeforeTargets="PostBuildEvent">
+    <PropertyGroup>
+      <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
+    </PropertyGroup>
+
+    <BuildLogTask
+            EventName="BuildLog"
+            LogFile="$(kcgXlibPath)/build-log/data/logs-build/build-log.json"
+            BuildStart="$(BuildStartTimeUtc)"
+            BuildEnd="$(BuildEndTimeUtc)"
+    />
+  </Target>
+
+</Project>

@@ -1,0 +1,34 @@
+**/bin/
+**/obj/
+obj/
+**/build/
+# Ignore everything in data directory
+/data/*
+/build/*
+build/
+/chromium/*
+/output/*
+# But keep .gitkeep in the data directory
+!/data/.gitkeep
+!/build/.gitkeep
+chrome-win
+chrome-linux
+ChromiumUserData
+.vs/
+packages/
+*.user
+*.suo
+*.vs/
+*.db
+*.log
+UserData
+egdtswa4/
+.idea/
+/.github/prompts
+
+# drawio
+*.bkp
+
+**/.DS_Store
+
+global.json
