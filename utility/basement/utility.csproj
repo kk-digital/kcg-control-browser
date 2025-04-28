@@ -22,11 +22,11 @@
     <ProjectReference Include="../../../kcg-xlib/build-log/build-log.csproj" />
   </ItemGroup>
 
-	<ItemGroup>
-		<Reference Include="HtmlAgilityPack">
-			<HintPath>../../library/htmlagilitypack/1.11.67/lib/netstandard2.0/HtmlAgilityPack.dll</HintPath>
-		</Reference>
-	</ItemGroup>
+  <ItemGroup>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>../../../kcg-library-external/library/htmlagilitypack/1.11.67/lib/netstandard2.0/HtmlAgilityPack.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup>
     <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
     <kcgXlibPath>../../../kcg-xlib</kcgXlibPath>

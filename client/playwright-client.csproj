@@ -21,7 +21,7 @@
   
   <ItemGroup>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>../library/htmlagilitypack/1.11.67/lib/netstandard2.0/HtmlAgilityPack.dll</HintPath>
+      <HintPath>../../kcg-library-external/library/htmlagilitypack/1.11.67/lib/netstandard2.0/HtmlAgilityPack.dll</HintPath>
     </Reference>
   </ItemGroup>
 
