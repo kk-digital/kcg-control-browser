@@ -45,6 +45,15 @@ public class PlaywrightProxyManager
         }
         else if (_proxies.Count == 1)
         {
+            PlaywrightProxyInstance proxyInstance = _proxies[0];
+
+            if (!PuppeteerProxyChecker.IsProxyWorking(proxyInstance.IP, proxyInstance.Port, proxyInstance.Username,
+                    proxyInstance.Password).GetAwaiter().GetResult())
+            {
+                LibLog.LogWarning($@"Proxy with IP {proxyInstance.IP} doesn't seem to be working");
+                return null;
+            }
+            
             _activeProxyIndex = 0;
             _proxies[_activeProxyIndex].Status = PlaywrightProxyInstance.ProxyStatus.NOT_AVAILABLE;
             return _proxies[_activeProxyIndex];
@@ -54,6 +63,14 @@ public class PlaywrightProxyManager
         {
             if (_proxies[n].Status == PlaywrightProxyInstance.ProxyStatus.AVAILABLE)
             {
+                
+                if (!PuppeteerProxyChecker.IsProxyWorking(_proxies[n].IP, _proxies[n].Port, _proxies[n].Username,
+                        _proxies[n].Password).GetAwaiter().GetResult())
+                {
+                    LibLog.LogWarning($@"Proxy with IP {_proxies[n].IP} doesn't seem to be working");
+                    continue;
+                }
+                
                 _proxies[n].Status = PlaywrightProxyInstance.ProxyStatus.NOT_AVAILABLE;
                 _activeProxyIndex = n;
                 return _proxies[n];
