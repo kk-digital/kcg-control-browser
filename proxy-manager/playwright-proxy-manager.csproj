@@ -6,7 +6,7 @@
     <RootNamespace>PlaywrightProxyManager</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <OutputPath>build/</OutputPath>
+    <OutputPath>$(SolutionDir)build/$(MSBuildProjectName)/</OutputPath>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="proxy-list.txt" />

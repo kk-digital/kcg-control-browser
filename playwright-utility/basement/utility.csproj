@@ -6,7 +6,7 @@
     <Nullable>disable</Nullable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <OutputPath>build/</OutputPath>
+    <OutputPath>$(SolutionDir)build/$(MSBuildProjectName)/</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>../../../kcg-library-external/library/htmlagilitypack/1.11.67/lib/netstandard2.0/HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\..\..\kcg-library-external\library\htmlagilitypack\1.11.67\lib\netstandard2.0\HtmlAgilityPack.dll</HintPath>
     </Reference>
   </ItemGroup>
   <PropertyGroup>
