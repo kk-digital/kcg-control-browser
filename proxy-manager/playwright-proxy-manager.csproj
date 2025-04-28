@@ -17,7 +17,7 @@
     <ProjectReference Include="../../kcg-xlib/lib-io/lib-io.csproj" />
     <ProjectReference Include="../proxy-config/playwright-proxy-config.csproj" />
     <ProjectReference Include="../../kcg-xlib/lib-log/lib-log.csproj" />
-    <ProjectReference Include="../utility/network/network.csproj" />
+    <ProjectReference Include="../playwright-utility/network/network.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
