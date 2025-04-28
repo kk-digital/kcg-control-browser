@@ -15,9 +15,9 @@
   
   <ItemGroup>
     <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
-    <ProjectReference Include="../client/playwright-client.csproj" />
     <ProjectReference Include="../proxy-manager/playwright-proxy-manager.csproj" />
     <ProjectReference Include="../playwright-web-proxy-server/playwright-web-proxy-server.csproj" />
+    <ProjectReference Include="../playwright-client/playwright-client.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
