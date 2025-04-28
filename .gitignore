@@ -1,17 +1,25 @@
 **/bin/
 **/obj/
 obj/
+
 # Ignore all build/ folders recursively
 **/build/
+
+# Un-ignore the top-level build/ folder
+!/build/
+
+# Ignore everything inside top-level build/
+build/*
+
+# But keep the .gitkeep file inside the top-level build/
+!build/.gitkeep
+
 # Ignore everything in data directory
 /data/*
-/build/*
-build/
 /chromium/*
 /output/*
 # But keep .gitkeep in the data directory
 !/data/.gitkeep
-!/build/.gitkeep
 chrome-win
 chrome-linux
 ChromiumUserData
