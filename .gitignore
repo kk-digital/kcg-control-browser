@@ -3,6 +3,8 @@
 obj/
 # Ignore all build/ folders recursively
 **/build/
+# Ignore everything inside top-level build/
+build/*
 # Ignore everything in data directory
 /data/*
 /build/*
@@ -11,7 +13,9 @@ build/
 /output/*
 # But keep .gitkeep in the data directory
 !/data/.gitkeep
+# Except for the .gitkeep file inside it
 !/build/.gitkeep
+!/build/
 chrome-win
 chrome-linux
 ChromiumUserData
