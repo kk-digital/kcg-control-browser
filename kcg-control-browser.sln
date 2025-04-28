@@ -10,8 +10,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "kcg-xlib", "kcg-xlib", "{FE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "playwright-proxy-manager", "proxy-manager\playwright-proxy-manager.csproj", "{5B2614D3-29B5-4248-8FE3-6B851B87C831}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "playwright-client", "client\playwright-client.csproj", "{FBA3D44A-3E1D-405E-BF27-599B4DD5621A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "playwright-proxy-config", "proxy-config\playwright-proxy-config.csproj", "{F4EFFD68-54A3-4D30-89C7-13F88DE63488}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "utility", "utility", "{A9EFCD64-C0AE-4C73-A394-23DF7D45CE48}"
@@ -27,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "build-log", "..\kcg-xlib\build-log\build-log.csproj", "{55648E36-4F49-4F64-8AB2-0A18175BD5D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "build-log-client", "..\kcg-xlib\build-log-client\build-log-client.csproj", "{07BA281D-5547-4FEF-8161-E15D33BA2BDA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "playwright-client", "playwright-client\playwright-client.csproj", "{03D2E53F-759D-4CFE-997A-D7E13A6F6801}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -50,10 +50,6 @@ Global
 		{5B2614D3-29B5-4248-8FE3-6B851B87C831}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B2614D3-29B5-4248-8FE3-6B851B87C831}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B2614D3-29B5-4248-8FE3-6B851B87C831}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FBA3D44A-3E1D-405E-BF27-599B4DD5621A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FBA3D44A-3E1D-405E-BF27-599B4DD5621A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FBA3D44A-3E1D-405E-BF27-599B4DD5621A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FBA3D44A-3E1D-405E-BF27-599B4DD5621A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F4EFFD68-54A3-4D30-89C7-13F88DE63488}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F4EFFD68-54A3-4D30-89C7-13F88DE63488}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4EFFD68-54A3-4D30-89C7-13F88DE63488}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -82,6 +78,10 @@ Global
 		{07BA281D-5547-4FEF-8161-E15D33BA2BDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07BA281D-5547-4FEF-8161-E15D33BA2BDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07BA281D-5547-4FEF-8161-E15D33BA2BDA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03D2E53F-759D-4CFE-997A-D7E13A6F6801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03D2E53F-759D-4CFE-997A-D7E13A6F6801}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03D2E53F-759D-4CFE-997A-D7E13A6F6801}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03D2E53F-759D-4CFE-997A-D7E13A6F6801}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B2DE4064-5A1B-4664-A339-D42A2C6279DD} = {A9EFCD64-C0AE-4C73-A394-23DF7D45CE48}
