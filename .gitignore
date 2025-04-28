@@ -1,6 +1,7 @@
 **/bin/
 **/obj/
 obj/
+# Ignore all build/ folders recursively
 **/build/
 # Ignore everything in data directory
 /data/*
