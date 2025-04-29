@@ -1,7 +1,7 @@
-﻿using Microsoft.Playwright;
-using System.Net;
+﻿using System.Net;
 using System.Reflection;
 using LogUtility;
+using Microsoft.Playwright;
 using Titanium.Web.Proxy;
 using Titanium.Web.Proxy.EventArguments;
 using Titanium.Web.Proxy.Models;

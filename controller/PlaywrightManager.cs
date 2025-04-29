@@ -1,8 +1,8 @@
-﻿using Microsoft.Playwright;
-using PlaywrightProxyManager;
-using System.Data;
+﻿using System.Data;
 using System.Security.Cryptography.X509Certificates;
 using LogUtility;
+using Microsoft.Playwright;
+using PlaywrightProxyManager;
 using Titanium.Web.Proxy;
 
 namespace PlaywrightController;
