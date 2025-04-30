@@ -1,8 +1,8 @@
-﻿using HtmlAgilityPack;
-using ImageMagick;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using HtmlAgilityPack;
+using ImageMagick;
 using UtilityNetwork;
 
 namespace Utility;
