@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
-    <ProjectReference Include="../playwright-utility/app-settings/app-settings.csproj" />
+    <ProjectReference Include="../playwright-utility/playwright-settings/playwright-settings.csproj" />
     <ProjectReference Include="../playwright-utility/basement/utility.csproj" />
     <ProjectReference Include="../playwright-utility/warc-tools/warc-tools.csproj" />
   </ItemGroup>
