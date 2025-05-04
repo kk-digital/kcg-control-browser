@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lib-os", "..\kcg-xlib\lib-o
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lib-io", "..\kcg-xlib\lib-io\lib-io.csproj", "{6166066B-C20C-43BA-B761-C47DDADFC1C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "user-profile-management", "user-profile-management\user-profile-management.csproj", "{66A56AFF-521D-4D07-B827-BA0934BDDD8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +134,10 @@ Global
 		{6166066B-C20C-43BA-B761-C47DDADFC1C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6166066B-C20C-43BA-B761-C47DDADFC1C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6166066B-C20C-43BA-B761-C47DDADFC1C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66A56AFF-521D-4D07-B827-BA0934BDDD8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66A56AFF-521D-4D07-B827-BA0934BDDD8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66A56AFF-521D-4D07-B827-BA0934BDDD8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66A56AFF-521D-4D07-B827-BA0934BDDD8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{55648E36-4F49-4F64-8AB2-0A18175BD5D9} = {FE8048C8-DDAC-4506-BB9B-DF0C06A4401C}
