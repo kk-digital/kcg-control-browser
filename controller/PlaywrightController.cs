@@ -14,6 +14,8 @@ public class PlaywrightController
     private string ProxyUrlPassword { get; set; }
     public IBrowserContext Context { get; set; }
     public bool Headless { get; set; } = false;
+    
+    public string ContextStorageStateFilePath { get; set; } // path of the .json file that stores the storage state data for the browser context
 
     public PlaywrightController(string chromiumPath, string proxyUrl = "", string proxyUrlUsername = "", string proxyUrlPassword = "", bool headless = false)
     {
@@ -24,17 +26,17 @@ public class PlaywrightController
         Headless = headless;
     }
 
-    public void InitializeBrowser(string userDataDir = "")
+    public void InitializeBrowserOld(string userDataDir = "")
     {
         IPlaywright playWright = Playwright.CreateAsync().GetAwaiter().GetResult();
-        BrowserTypeLaunchPersistentContextOptions opt = new();
+        BrowserTypeLaunchPersistentContextOptions opt = new BrowserTypeLaunchPersistentContextOptions();
         opt.ExecutablePath = ChromiumPath;
         opt.Headless = Headless;
         opt.UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36";
 
         if (ProxyUrl != "")
         {
-            Proxy proxy = new();
+            Proxy proxy = new Proxy();
             proxy.Server = ProxyUrl;
             proxy.Username = ProxyUrlUsername;
             proxy.Password = ProxyUrlPassword;
@@ -53,10 +55,8 @@ public class PlaywrightController
             Context = playWright.Chromium.LaunchPersistentContextAsync(userDataDir, opt).GetAwaiter().GetResult();
     }
     
-    public void InitializeBrowserNew()
+    public void InitializeBrowser()
     {
-        string s = PathUtils.GetFullPath("data/user-profiles");
-        string profileBasePath = @"c:\projects\proxy-ip-with-user-profiles";
         IPlaywright playwright = Playwright.CreateAsync().GetAwaiter().GetResult();
         BrowserTypeLaunchOptions opt = new BrowserTypeLaunchOptions();
         opt.ExecutablePath = ChromiumPath;
@@ -68,15 +68,14 @@ public class PlaywrightController
 
         IBrowser browser = playwright.Chromium.LaunchAsync(opt).GetAwaiter().GetResult();
         string ip = ProxyUrl.Split(":").First();
-        ProxyIpWithProfiles profiles = UserProfileManager.LoadUserProfilesByIp(ip, profileBasePath);
+        ProxyIpWithProfiles profiles = UserProfileManager.LoadUserProfilesByIp(ip, UserProfileManager.UserProfilesBaseFolder);
         BrowserProfile profile = profiles.GetProfileToUse();
         BrowserNewContextOptions newContextOptions = new BrowserNewContextOptions();
+        ContextStorageStateFilePath = profile.StorageStateFilePath;
         
-        profile.StorageStateFilePath = @"c:\projects\storage-state.json";
-        
-        if (!string.IsNullOrWhiteSpace(profile.StorageStateFilePath) && File.Exists(profile.StorageStateFilePath))
+        if (!string.IsNullOrWhiteSpace(ContextStorageStateFilePath) && File.Exists(ContextStorageStateFilePath))
         {
-            newContextOptions.StorageStatePath = profile.StorageStateFilePath;
+            newContextOptions.StorageStatePath = ContextStorageStateFilePath;
         }
         
         Proxy proxy = new Proxy();

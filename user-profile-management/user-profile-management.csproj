@@ -16,6 +16,7 @@
 
     <ItemGroup>
         <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
+        <ProjectReference Include="../../kcg-xlib/lib-io/lib-io.csproj" />
     </ItemGroup>
 
     <PropertyGroup>

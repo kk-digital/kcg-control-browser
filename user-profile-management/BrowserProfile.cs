@@ -3,6 +3,7 @@
 public class BrowserProfile
 {
     public string UserAgent { get; set; }
+    public string AcceptLanguage { get; set; }
     public string Locale { get; set; }
     public string Timezone { get; set; }
     public double Latitude { get; set; }

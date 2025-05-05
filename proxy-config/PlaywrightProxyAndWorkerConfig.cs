@@ -37,6 +37,20 @@ public class PlaywrightProxyAndWorkerConfig
     
     [JsonInclude]
     [Required]
+    [JsonConverter(typeof(FilePathJsonConverter))]
+    public FilePath GeoLocationDataPath;    // path to a .json file where proxies geo location data is stored
+    
+    [JsonInclude]
+    [Required]
+    [JsonConverter(typeof(FilePathJsonConverter))]
+    public FilePath UserAgentsPath;         // path to a .txt file where browser user agents data is stored
+    
+    [JsonInclude]
+    [Required]
+    public string UserProfilesDirPath;      // path to a folder where browser context user profiles are stored
+    
+    [JsonInclude]
+    [Required]
     public bool DownloadFullResolutionImage;
 
     public PlaywrightProxyAndWorkerConfig()
@@ -48,6 +62,9 @@ public class PlaywrightProxyAndWorkerConfig
         Headless = false;
         ProxiesPath = null;
         DownloadFullResolutionImage = false;
+        UserProfilesDirPath = null;
+        GeoLocationDataPath = null;
+        UserAgentsPath = null;
     }
 
     public PlaywrightProxyAndWorkerConfig(FilePath filePath)
@@ -61,14 +78,17 @@ public class PlaywrightProxyAndWorkerConfig
         Utils.Assert(config.RetryDelaySeconds >= 1, "Worker sleep duration must be at least 1 second.");
         Utils.Assert(config.ProxiesPath != null, "Proxies file path not found in configuration.");
         Utils.Assert(config.ChromiumDirPath != null, "Chromium directory path not found in configuration.");
-        Utils.Assert(config.DownloadFullResolutionImage != null, "DownloadFullResolutionImage must be set to true/false.");
-
-        config.ChromiumDirPath = PathUtils.GetFullPath(config.ChromiumDirPath);
+        Utils.Assert(config.UserProfilesDirPath != null, "User Profiles directory path not found in configuration.");
+        Utils.Assert(config.GeoLocationDataPath != null, "Geo Location Data file path not found in configuration.");
+        Utils.Assert(config.UserAgentsPath != null, "User Agents file path not found in configuration.");
+        
+        ChromiumDirPath = config.ChromiumDirPath;
+        
         switch (OperatingSystemUtils.GetOperatingSystem())
         {
             case OperatingSystemType.Windows:
             {
-                ChromiumFilePath = new(PathUtils.Combine(config.ChromiumDirPath, "chrome.exe"));
+                ChromiumFilePath = new(PathUtils.GetFullPath(PathUtils.Combine(ChromiumDirPath, "chrome.exe")));
                 break;
             }
             case OperatingSystemType.Linux:
@@ -86,5 +106,8 @@ public class PlaywrightProxyAndWorkerConfig
         Headless = config.Headless;
         ProxiesPath = config.ProxiesPath;
         DownloadFullResolutionImage = config.DownloadFullResolutionImage;
+        UserProfilesDirPath = config.UserProfilesDirPath;
+        GeoLocationDataPath = config.GeoLocationDataPath;
+        UserAgentsPath = config.UserAgentsPath;
     }
 }

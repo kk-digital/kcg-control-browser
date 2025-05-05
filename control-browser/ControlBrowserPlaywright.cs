@@ -264,8 +264,21 @@ public class ControlBrowserPlaywright
         catch (Exception)
         {
         }
+        
+        // if language is in spanish
+        try
+        {
+            ILocator closeButton = tabPage.Locator("button[aria-label='Cerrar abajo a la derecha Upsell']");
+            if (closeButton.IsVisibleAsync(new() { Timeout = 1000 }).GetAwaiter().GetResult())
+            {
+                SetRandomDelay(1, 3).GetAwaiter().GetResult();
+                closeButton.ClickAsync().GetAwaiter().GetResult();
+            }
+        }
+        catch (Exception)
+        {
+        }
     }
-
     
     public void CloseYoutubeLogInDialogIfFound(IPage tabPage)
     {
@@ -273,6 +286,21 @@ public class ControlBrowserPlaywright
         {
             // Explicitly typed locator for the "No thanks" button
             ILocator noThanksButton = tabPage.GetByRole(AriaRole.Button, new() { Name = "No thanks" });
+        
+            if (noThanksButton.IsVisibleAsync(new()).GetAwaiter().GetResult())
+            {
+                SetRandomDelay(1, 3).GetAwaiter().GetResult();
+                noThanksButton.ClickAsync().GetAwaiter().GetResult();
+            }
+        }
+        catch (Exception)
+        {
+        }
+        
+        try
+        {
+            // Explicitly typed locator for the "No thanks" button
+            ILocator noThanksButton = tabPage.GetByRole(AriaRole.Button, new() { Name = "No, gracias" });
         
             if (noThanksButton.IsVisibleAsync(new()).GetAwaiter().GetResult())
             {

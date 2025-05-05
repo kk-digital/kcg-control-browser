@@ -73,17 +73,3 @@ public static class UsTimeZoneExtensions
         throw new ArgumentException($"Unknown US_TimeZone string: '{timeZoneString}'", nameof(timeZoneString));
     }
 }
-
-// usage:
-// class Program
-// {
-//     static void Main()
-//     {
-//         UsTimeZone tz = UsTimeZone.America_Los_Angeles;
-//         string ianaString = tz.GetTimeZoneString();
-//
-//         Console.WriteLine(ianaString);  // Output: America/Los_Angeles
-//     }
-// }
-
-
