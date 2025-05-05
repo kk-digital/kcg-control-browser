@@ -1,0 +1,49 @@
+<Project>
+    <PropertyGroup>
+        <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
+        <kcgxlibPath>$(MSBuildThisFileDirectory)../kcg-xlib</kcgxlibPath>
+        <BuildLogProjectPath>$(kcgXlibPath)/build-log/build-log.csproj</BuildLogProjectPath>
+        <BuildLogConfiguration>Debug</BuildLogConfiguration>
+        <BuildLogTargetFramework>net7.0</BuildLogTargetFramework>
+        <BuildLogOutputPath>$(MSBuildThisFileDirectory)build/pre-build/build-log/$(BuildLogConfiguration)/$(BuildLogTargetFramework)</BuildLogOutputPath>
+        <BuildLogDllPath>$(BuildLogOutputPath)/build-log.dll</BuildLogDllPath>
+    </PropertyGroup>
+
+    <Target Name="ShowMSBuildThisFileDirectory" BeforeTargets="Build">
+        <Message Text="MSBuildThisFileDirectory=$(MSBuildThisFileDirectory)" Importance="High" />
+    </Target>
+
+    <!-- Target to build the build-log project only if DLL is missing -->
+    <Target Name="EnsureBuildLogBuilt" BeforeTargets="Build"
+            Condition="!Exists('$(BuildLogDllPath)')">
+        <MSBuild Projects="$(BuildLogProjectPath)"
+                 Targets="Build"
+                 Properties="Configuration=$(BuildLogConfiguration);TargetFramework=$(BuildLogTargetFramework);OutputPath=$(BuildLogOutputPath)" />
+    </Target>
+
+    <!-- Register and run DisableTelemetry only after ensuring DLL exists -->
+    <UsingTask TaskName="MyTasks.DisableTelemetryTask" AssemblyFile="$(BuildLogDllPath)" />
+    <Target Name="RunDisableTelemetryTask"
+            BeforeTargets="Build"
+            DependsOnTargets="EnsureBuildLogBuilt"
+            Condition="Exists('$(BuildLogDllPath)')">
+        <MyTasks.DisableTelemetryTask />
+    </Target>
+
+    <!-- Register and run BuildLogTask only after ensuring DLL exists -->
+    <UsingTask TaskName="MyTasks.BuildLogTask" AssemblyFile="$(BuildLogDllPath)" />
+    <Target Name="RunBuildLogTask"
+            BeforeTargets="PostBuildEvent"
+            DependsOnTargets="EnsureBuildLogBuilt"
+            Condition="Exists('$(BuildLogDllPath)')">
+        <PropertyGroup>
+            <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
+        </PropertyGroup>
+        <MyTasks.BuildLogTask
+                EventName="BuildLog"
+                LogFile="$(kcgXlibPath)/build-log/data/logs-build/build-log.json"
+                BuildStart="$(BuildStartTimeUtc)"
+                BuildEnd="$(BuildEndTimeUtc)"
+                IsMainProject="$(IsMainProject)" />
+    </Target>
+</Project>
