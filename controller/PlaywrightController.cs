@@ -68,7 +68,7 @@ public class PlaywrightController
 
         IBrowser browser = playwright.Chromium.LaunchAsync(opt).GetAwaiter().GetResult();
         string ip = ProxyUrl.Split(":").First();
-        ProxyIpWithProfiles profiles = UserProfileManager.LoadUserProfilesByIp(ip, UserProfileManager.UserProfilesBaseFolder);
+        ProxyIpWithProfiles profiles = UserProfileManager.LoadUserProfilesByIp(ip, UserProfileManager);
         BrowserProfile profile = profiles.GetProfileToUse();
         BrowserNewContextOptions newContextOptions = new BrowserNewContextOptions();
         ContextStorageStateFilePath = profile.StorageStateFilePath;
