@@ -1,13 +1,17 @@
 <Project>
     <PropertyGroup>
         <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
-        <kcgXlibPath>$(SolutionDir)../kcg-xlib</kcgXlibPath>
+        <kcgxlibPath>$(MSBuildThisFileDirectory)../kcg-xlib</kcgxlibPath>
         <BuildLogProjectPath>$(kcgXlibPath)/build-log/build-log.csproj</BuildLogProjectPath>
         <BuildLogConfiguration>Debug</BuildLogConfiguration>
         <BuildLogTargetFramework>net7.0</BuildLogTargetFramework>
-        <BuildLogOutputPath>$(SolutionDir)/build/pre-build/build-log/$(BuildLogConfiguration)/$(BuildLogTargetFramework)</BuildLogOutputPath>
+        <BuildLogOutputPath>$(MSBuildThisFileDirectory)build/pre-build/build-log/$(BuildLogConfiguration)/$(BuildLogTargetFramework)</BuildLogOutputPath>
         <BuildLogDllPath>$(BuildLogOutputPath)/build-log.dll</BuildLogDllPath>
     </PropertyGroup>
+
+    <Target Name="ShowMSBuildThisFileDirectory" BeforeTargets="Build">
+        <Message Text="MSBuildThisFileDirectory=$(MSBuildThisFileDirectory)" Importance="High" />
+    </Target>
 
     <!-- Target to build the build-log project only if DLL is missing -->
     <Target Name="EnsureBuildLogBuilt" BeforeTargets="Build"
