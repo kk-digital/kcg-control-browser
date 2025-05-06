@@ -10,8 +10,29 @@
     <OutputPath>$(SolutionDir)build/$(MSBuildProjectName)/</OutputPath>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
+    <kcgXlibPath>../../../kcg-xlib</kcgXlibPath>
+  </PropertyGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\..\..\kcg-xlib\lib-log\lib-log.csproj" />
+    <ProjectReference Include="../../../kcg-xlib/lib-log/lib-log.csproj" />
+    <ProjectReference Include="../../../kcg-xlib/build-log/build-log.csproj" />
   </ItemGroup>
+
+  <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
+
+  <Target Name="BuildLogTask" BeforeTargets="PostBuildEvent">
+    <PropertyGroup>
+      <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
+    </PropertyGroup>
+
+    <BuildLogTask
+            EventName="BuildLog"
+            LogFile="$(kcgXlibPath)/build-log/data/logs-build/build-log.json"
+            BuildStart="$(BuildStartTimeUtc)"
+            BuildEnd="$(BuildEndTimeUtc)"
+    />
+  </Target>
   
 </Project>

@@ -1,9 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <OutputType>Library</OutputType>
         <TargetFramework>net7.0</TargetFramework>
-        <RootNamespace>ControlBrowser</RootNamespace>
+        <RootNamespace>user_profile_management</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>disable</Nullable>
         <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -12,20 +11,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
-        <ProjectReference Include="../controller/playwright-controller.csproj" />
-        <ProjectReference Include="../playwright-utility/basement/utility.csproj" />
+        <PackageReference Include="Microsoft.Playwright" Version="1.47.0" />
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="Microsoft.Playwright">
-        <HintPath>../../../../Users/gil/.nuget/packages/microsoft.playwright/1.47.0/lib/netstandard2.0/Microsoft.Playwright.dll</HintPath>
-      </Reference>
+        <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
+        <ProjectReference Include="../../kcg-xlib/lib-io/lib-io.csproj" />
     </ItemGroup>
 
     <PropertyGroup>
         <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
-        <kcgXlibPath>../../../kcg-xlib</kcgXlibPath>
+        <kcgXlibPath>../../kcg-xlib</kcgXlibPath>
     </PropertyGroup>
 
     <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
@@ -42,5 +38,5 @@
                 BuildEnd="$(BuildEndTimeUtc)"
         />
     </Target>
-    
+
 </Project>
