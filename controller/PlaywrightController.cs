@@ -15,6 +15,8 @@ public class PlaywrightController
     public IBrowserContext Context { get; set; }
     public bool Headless { get; set; } = false;
     
+    public bool StoreCookies { get; set; } = false;
+    
     public string ContextStorageStateFilePath { get; set; } // path of the .json file that stores the storage state data for the browser context
 
     public PlaywrightController(string chromiumPath, string proxyUrl = "", string proxyUrlUsername = "", string proxyUrlPassword = "", bool headless = false)
@@ -134,17 +136,21 @@ public class PlaywrightController
         {
             if (Context != null)
             {
-                // Assume jsonString is your compact JSON string
-                string jsonString = Context.StorageStateAsync().GetAwaiter().GetResult();
-                ContextStorageState contextStorageState = JsonSerializer.Deserialize<ContextStorageState>(jsonString);
-
-                JsonSerializerOptions options = new JsonSerializerOptions
+                if (StoreCookies)
                 {
-                    WriteIndented = true,
-                    Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                };
-                string prettyJson = JsonSerializer.Serialize(contextStorageState, options);
-                File.WriteAllText(storageStateFilePath, prettyJson);
+                    // Assume jsonString is your compact JSON string
+                    string jsonString = Context.StorageStateAsync().GetAwaiter().GetResult();
+                    ContextStorageState contextStorageState = JsonSerializer.Deserialize<ContextStorageState>(jsonString);
+
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    };
+                    string prettyJson = JsonSerializer.Serialize(contextStorageState, options);
+                    File.WriteAllText(storageStateFilePath, prettyJson);
+                }
+                
                 Context.CloseAsync().GetAwaiter().GetResult();
             }
         }

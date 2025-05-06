@@ -25,6 +25,7 @@ public class ControlBrowserPlaywright
     public ControlBrowserNavigationHistory ControlBrowserNavigationHistory = new();
     public string DummyUrl = string.Empty;
     public IPage[] RandomVisitedPages = Array.Empty<IPage>();
+    public string MostVisitedSitesPath = string.Empty;
 
     public ControlBrowserPlaywright(PlaywrightTabManager tabManager)
     {
@@ -65,8 +66,9 @@ public class ControlBrowserPlaywright
         return new Point { X = x, Y = y };
     }
 
-    public void MoveMouseRandomly(IPage page, int movements)
+    public void MoveMouseRandomly(IPage page)
     {
+        int movements = _random.Next(1, 4); // randomly set 1 to 3 mouse movements
         int viewportWidth = 1280;
         int viewportHeight = 720;
 
@@ -136,7 +138,7 @@ public class ControlBrowserPlaywright
                         ScrollDownRandomly(DummyTab);
                         break;
                     case 2:
-                        MoveMouseRandomly(DummyTab,_random.Next(1, 4));
+                        MoveMouseRandomly(DummyTab);
                         break;
                     case 3:
                         ScrollUpRandomly(DummyTab);
@@ -171,7 +173,7 @@ public class ControlBrowserPlaywright
                 ClickYoutubeSkipAdButtonIfFound(DummyTab);
                 CloseYoutubeLogInDialogIfFound(DummyTab);
                 ClickYoutubeDismissButtonIfFound(DummyTab);
-                MoveMouseRandomly(DummyTab,_random.Next(1, 3));
+                MoveMouseRandomly(DummyTab);
                 SetRandomDelay(1, 3).GetAwaiter().GetResult();
             }
             
@@ -232,9 +234,14 @@ public class ControlBrowserPlaywright
     }
 
     // navigate to a number of random sites
-    public void GotoRandomSites(string sitesFilePath, int selectionCount)
+    public void GotoRandomSites()
     {
-        RandomVisitedPages = TabManager.GotoRandomSites(MostVisitedSitesLoader.SelectRandomSitesFromFile(sitesFilePath, selectionCount));
+        Random random = new Random();
+        
+        SetRandomDelay(3, 5).GetAwaiter().GetResult();
+        int numberOfSites = random.Next(1, 4); // open 1 to 3 random sites
+        RandomVisitedPages = TabManager.GotoRandomSites(MostVisitedSitesLoader.SelectRandomSitesFromFile(MostVisitedSitesPath, numberOfSites));
+        SetRandomDelay(3, 5).GetAwaiter().GetResult();
     }
 
     public void DoInitialScroll(IPage tabPage)

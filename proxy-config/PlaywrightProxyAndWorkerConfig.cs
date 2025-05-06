@@ -56,6 +56,10 @@ public class PlaywrightProxyAndWorkerConfig
     
     [JsonInclude]
     [Required]
+    public bool StoreCookies;
+    
+    [JsonInclude]
+    [Required]
     public bool DownloadFullResolutionImage;
 
     public PlaywrightProxyAndWorkerConfig()
@@ -71,6 +75,7 @@ public class PlaywrightProxyAndWorkerConfig
         GeoLocationDataPath = null;
         UserAgentsPath = null;
         MostVisitedSitesPath = null;
+        StoreCookies = false;
     }
 
     public PlaywrightProxyAndWorkerConfig(FilePath filePath)
@@ -117,5 +122,6 @@ public class PlaywrightProxyAndWorkerConfig
         GeoLocationDataPath = config.GeoLocationDataPath;
         UserAgentsPath = config.UserAgentsPath;
         MostVisitedSitesPath = config.MostVisitedSitesPath;
+        StoreCookies = config.StoreCookies;
     }
 }

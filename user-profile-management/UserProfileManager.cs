@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.Json;
+using LogUtility;
 using UtilityIO;
 
 namespace user_profile_management;
@@ -57,7 +58,6 @@ public class UserProfileManager
         int userAgentIndex = 0;
         Random random = new Random();
         string prevAcceptLanguage = "";
-        
 
         for (int p = 0; p < proxyIpGeoLocations.Length; p++)
         {
@@ -115,7 +115,7 @@ public class UserProfileManager
             }
         }
 
-        Console.WriteLine($"✅ Generated {proxyIpGeoLocations.Length * profilesPerProxy} profiles grouped into proxy folders under '{baseFolder}'");
+        LibLog.LogInfo($"✅ Generated {proxyIpGeoLocations.Length * profilesPerProxy} profiles grouped into proxy folders under '{baseFolder}'");
     }
     
     public static BrowserProfile GetProfileByTimeZone(string timeZone)
@@ -136,18 +136,11 @@ public class UserProfileManager
             new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Denver" },
             new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Los_Angeles" },
             new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Anchorage" },
-            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "Pacific/Honolulu" },
-
-            // es-US, q=0.9
-            new BrowserProfile { AcceptLanguage = "es-US,es;q=0.9,en;q=0.7", Locale = "es-US", Timezone = "America/New_York" },
-            new BrowserProfile { AcceptLanguage = "es-US,es;q=0.9,en;q=0.7", Locale = "es-US", Timezone = "America/Chicago" },
-            new BrowserProfile { AcceptLanguage = "es-US,es;q=0.9,en;q=0.7", Locale = "es-US", Timezone = "America/Denver" },
-            new BrowserProfile { AcceptLanguage = "es-US,es;q=0.9,en;q=0.7", Locale = "es-US", Timezone = "America/Los_Angeles" },
-            new BrowserProfile { AcceptLanguage = "es-US,es;q=0.9,en;q=0.7", Locale = "es-US", Timezone = "America/Anchorage" },
-            new BrowserProfile { AcceptLanguage = "es-US,es;q=0.9,en;q=0.7", Locale = "es-US", Timezone = "Pacific/Honolulu" }
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "Pacific/Honolulu" }
         };
 
         ProfileSelector selector = new ProfileSelector(profiles);
         return selector.GetProfileByTimezone(timeZone);
     }
+
 }
