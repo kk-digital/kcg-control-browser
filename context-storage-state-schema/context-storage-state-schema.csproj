@@ -2,7 +2,7 @@
 
 <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>browser_context_storage_schema</RootNamespace>
+    <RootNamespace>context_storage_state_schema</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>

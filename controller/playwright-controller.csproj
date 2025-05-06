@@ -18,7 +18,7 @@
     <ProjectReference Include="../proxy-manager/playwright-proxy-manager.csproj" />
     <ProjectReference Include="../playwright-web-proxy-server/playwright-web-proxy-server.csproj" />
     <ProjectReference Include="../playwright-client/playwright-client.csproj" />
-    <ProjectReference Include="../browser-context-storage-schema/browser-context-storage-schema.csproj" />
+    <ProjectReference Include="..\context-storage-state-schema\context-storage-state-schema.csproj" />
     <ProjectReference Include="../user-profile-management/user-profile-management.csproj" />
   </ItemGroup>
 

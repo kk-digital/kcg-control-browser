@@ -51,6 +51,11 @@ public class PlaywrightProxyAndWorkerConfig
     
     [JsonInclude]
     [Required]
+    [JsonConverter(typeof(FilePathJsonConverter))]
+    public FilePath MostVisitedSitesPath;         // path to a .txt file containing a list of most visited sites in the U.S.
+    
+    [JsonInclude]
+    [Required]
     public bool DownloadFullResolutionImage;
 
     public PlaywrightProxyAndWorkerConfig()
@@ -65,6 +70,7 @@ public class PlaywrightProxyAndWorkerConfig
         UserProfilesDirPath = null;
         GeoLocationDataPath = null;
         UserAgentsPath = null;
+        MostVisitedSitesPath = null;
     }
 
     public PlaywrightProxyAndWorkerConfig(FilePath filePath)
@@ -81,6 +87,7 @@ public class PlaywrightProxyAndWorkerConfig
         Utils.Assert(config.UserProfilesDirPath != null, "User Profiles directory path not found in configuration.");
         Utils.Assert(config.GeoLocationDataPath != null, "Geo Location Data file path not found in configuration.");
         Utils.Assert(config.UserAgentsPath != null, "User Agents file path not found in configuration.");
+        Utils.Assert(config.MostVisitedSitesPath != null, "Most Visited Sites' file path not found in configuration.");
         
         ChromiumDirPath = config.ChromiumDirPath;
         
@@ -109,5 +116,6 @@ public class PlaywrightProxyAndWorkerConfig
         UserProfilesDirPath = config.UserProfilesDirPath;
         GeoLocationDataPath = config.GeoLocationDataPath;
         UserAgentsPath = config.UserAgentsPath;
+        MostVisitedSitesPath = config.MostVisitedSitesPath;
     }
 }

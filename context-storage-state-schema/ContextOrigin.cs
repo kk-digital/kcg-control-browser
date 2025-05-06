@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace browser_context_storage_schema;
+namespace context_storage_state_schema;
 
 public class ContextOrigin
 {

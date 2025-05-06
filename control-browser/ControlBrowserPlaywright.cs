@@ -4,6 +4,7 @@ using LogUtility;
 using Microsoft.Playwright;
 using PageRequestInterface;
 using PlaywrightController;
+using user_profile_management;
 using utility;
 using Utility;
 
@@ -23,6 +24,7 @@ public class ControlBrowserPlaywright
 
     public ControlBrowserNavigationHistory ControlBrowserNavigationHistory = new();
     public string DummyUrl = string.Empty;
+    public IPage[] RandomVisitedPages = Array.Empty<IPage>();
 
     public ControlBrowserPlaywright(PlaywrightTabManager tabManager)
     {
@@ -227,6 +229,12 @@ public class ControlBrowserPlaywright
         
         ControlBrowserNavigationHistory.AddUrl(url);
         return true;
+    }
+
+    // navigate to a number of random sites
+    public void GotoRandomSites(string sitesFilePath, int selectionCount)
+    {
+        RandomVisitedPages = TabManager.GotoRandomSites(MostVisitedSitesLoader.SelectRandomSitesFromFile(sitesFilePath, selectionCount));
     }
 
     public void DoInitialScroll(IPage tabPage)

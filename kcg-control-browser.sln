@@ -48,7 +48,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "playwright-settings", "playwright-utility\playwright-settings\playwright-settings.csproj", "{3988B8EF-C988-40EA-A1BE-7211BB463A34}"
 >>>>>>> origin/main
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "browser-context-storage-schema", "browser-context-storage-schema\browser-context-storage-schema.csproj", "{69F3E60D-4450-4406-AFA0-7D2D03411A80}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "context-storage-state-schema", "context-storage-state-schema\context-storage-state-schema.csproj", "{69F3E60D-4450-4406-AFA0-7D2D03411A80}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "user-profile-management", "user-profile-management\user-profile-management.csproj", "{B48015BB-73B6-4C6D-AA91-95540C946DD3}"
 EndProject
