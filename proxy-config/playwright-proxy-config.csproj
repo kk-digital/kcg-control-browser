@@ -12,12 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\kcg-xlib\xlib-assert\xlib-assert.csproj" />
-    <ProjectReference Include="..\..\kcg-xlib\xlib-hash\xlib-hash.csproj" />
     <ProjectReference Include="..\..\kcg-xlib\xlib-io\xlib-io.csproj" />
     <ProjectReference Include="..\..\kcg-xlib\xlib-json\xlib-json.csproj" />
-    <ProjectReference Include="..\..\kcg-xlib\xlib-log\xlib-log.csproj" />
     <ProjectReference Include="..\..\kcg-xlib\xlib-os\xlib-os.csproj" />
-    <ProjectReference Include="..\..\kcg-xlib\xlib-uid\xlib-uid.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
