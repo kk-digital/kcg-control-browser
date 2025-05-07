@@ -12,7 +12,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
         <ProjectReference Include="../controller/playwright-controller.csproj" />
         <ProjectReference Include="../playwright-utility/basement/utility.csproj" />
     </ItemGroup>

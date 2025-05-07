@@ -41,8 +41,10 @@ public class UserProfileManager
         };
     }
     
-    public static void GenerateProfilesWithProxies(string proxiesGeoLocationDataPath, string userAgentsPath, string baseFolder)
+    public static void GenerateProfilesByProxies(string proxiesGeoLocationDataPath, string userAgentsPath, string baseFolder)
     {
+        LibLog.LogInfo("Generating user profiles");
+        
         ProxyIpGeoLocation[] proxyIpGeoLocations = ProxyIpGeoLocation.LoadFromJson(File.ReadAllText(proxiesGeoLocationDataPath));
         string[] userAgents = UserAgentsLoader.LoadUserAgentsFromFile(userAgentsPath);
         int profilesPerProxy = userAgents.Length / proxyIpGeoLocations.Length;

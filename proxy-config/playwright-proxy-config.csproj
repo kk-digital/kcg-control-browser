@@ -11,11 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
-    <ProjectReference Include="../../kcg-xlib/lib-assert/lib-assert.csproj" />
-    <ProjectReference Include="../../kcg-xlib/lib-io/lib-io.csproj" />
-    <ProjectReference Include="../../kcg-xlib/lib-json/lib-json.csproj" />
-    <ProjectReference Include="../../kcg-xlib/lib-os/lib-os.csproj" />
+    <ProjectReference Include="..\..\kcg-xlib\xlib-assert\xlib-assert.csproj" />
+    <ProjectReference Include="..\..\kcg-xlib\xlib-hash\xlib-hash.csproj" />
+    <ProjectReference Include="..\..\kcg-xlib\xlib-io\xlib-io.csproj" />
+    <ProjectReference Include="..\..\kcg-xlib\xlib-json\xlib-json.csproj" />
+    <ProjectReference Include="..\..\kcg-xlib\xlib-log\xlib-log.csproj" />
+    <ProjectReference Include="..\..\kcg-xlib\xlib-os\xlib-os.csproj" />
+    <ProjectReference Include="..\..\kcg-xlib\xlib-uid\xlib-uid.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

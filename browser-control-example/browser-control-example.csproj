@@ -13,10 +13,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Reference Include="Microsoft.Playwright">
         <HintPath>..\..\kcg-library-external\library\playwright\1.47.0\netstandard2.0\Microsoft.Playwright.dll</HintPath>
       </Reference>

@@ -10,10 +10,6 @@
     <OutputPath>$(SolutionDir)build/$(MSBuildProjectName)/</OutputPath>
 </PropertyGroup>
 
-<ItemGroup>
-    <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
-</ItemGroup>
-
 <PropertyGroup>
     <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
     <kcgXlibPath>../../kcg-xlib</kcgXlibPath>
