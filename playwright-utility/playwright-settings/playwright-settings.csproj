@@ -10,17 +10,17 @@
         <OutputPath>$(SolutionDir)build/$(MSBuildProjectName)/</OutputPath>
     </PropertyGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="../../../kcg-xlib/xlib-io/xlib-io.csproj" />
+        <ProjectReference Include="../../../kcg-xlib/xlib-json/xlib-json.csproj" />
+        <ProjectReference Include="..\..\..\kcg-xlib\build-log-client\build-log-client.csproj" />
+        <ProjectReference Include="..\..\..\kcg-xlib\build-log\build-log.csproj" />
+    </ItemGroup>
+
     <PropertyGroup>
         <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
         <kcgXlibPath>../../../kcg-xlib</kcgXlibPath>
     </PropertyGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="../../../kcg-xlib/build-log/build-log.csproj" />
-        <ProjectReference Include="../../../kcg-xlib/lib-io/lib-io.csproj" />
-        <ProjectReference Include="../../../kcg-xlib/lib-json/lib-json.csproj" />
-        <ProjectReference Include="../../../kcg-xlib/build-log/build-log.csproj" />
-    </ItemGroup>
 
     <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
 

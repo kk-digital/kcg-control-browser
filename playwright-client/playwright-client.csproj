@@ -13,7 +13,6 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
     <ProjectReference Include="../proxy-manager/playwright-proxy-manager.csproj" />
     <ProjectReference Include="../playwright-utility/playwright-settings/playwright-settings.csproj" />
     <ProjectReference Include="../playwright-utility/basement/utility.csproj" />

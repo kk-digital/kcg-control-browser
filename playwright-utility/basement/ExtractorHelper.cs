@@ -349,8 +349,10 @@ public class ExtractorHelper
         string[] parts = path.Split('/');
 
         // We expect exactly two parts: [username, boardname]
-        if (parts.Length != 2)
+        if (parts.Length < 2)
+        {
             return false;
+        }
 
         string username = parts[0];
         string boardname = parts[1];

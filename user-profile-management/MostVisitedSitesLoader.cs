@@ -8,21 +8,22 @@ public class MostVisitedSitesLoader
     {
         if (string.IsNullOrWhiteSpace(filePath))
         {
-            throw new ArgumentNullException(nameof(filePath));
+            return new string[0];
         }
 
         if (!File.Exists(filePath))
         {
-            throw new FileNotFoundException("Most visited sites' file not found.", filePath);
+            return new string[0];
         }
 
         // Read all lines from the file and trim them
         string[] lines = File.ReadAllLines(filePath);
         List<string> siteList = new List<string>();
 
-        foreach (string line in lines)
+        // Replace foreach with for-loop
+        for (int i = 0; i < lines.Length; i++)
         {
-            string trimmed = line.Trim();
+            string trimmed = lines[i].Trim();
             if (!string.IsNullOrEmpty(trimmed))
             {
                 siteList.Add(trimmed);
@@ -30,6 +31,7 @@ public class MostVisitedSitesLoader
         }
 
         // Fisher-Yates shuffle
+        Random random = new Random();
         int n = siteList.Count;
         for (int i = n - 1; i > 0; i--)
         {
@@ -38,13 +40,19 @@ public class MostVisitedSitesLoader
             siteList[i] = siteList[j];
             siteList[j] = temp;
         }
-        
+    
         // Return the first selectionCount URLs or all if selectionCount exceeds available sites
         if (selectionCount > siteList.Count)
         {
             selectionCount = siteList.Count;
         }
 
-        return siteList.Take(selectionCount).ToArray();
+        string[] result = new string[selectionCount];
+        for (int i = 0; i < selectionCount; i++)
+        {
+            result[i] = siteList[i];
+        }
+
+        return result;
     }
 }

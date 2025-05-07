@@ -68,7 +68,6 @@ public class ControlBrowserPlaywright
 
     public void MoveMouseRandomly(IPage page)
     {
-        int movements = _random.Next(1, 4); // randomly set 1 to 3 mouse movements
         int viewportWidth = 1280;
         int viewportHeight = 720;
 
@@ -85,32 +84,29 @@ public class ControlBrowserPlaywright
         page.Mouse.MoveAsync(startX, startY).GetAwaiter().GetResult();
         Task.Delay(_random.Next(100, 400)).GetAwaiter().GetResult();
 
-        for (int i = 0; i < movements; i++)
-        {
-            float targetX = _random.Next(0, viewportWidth);
-            float targetY = _random.Next(0, viewportHeight);
+        float targetX = _random.Next(0, viewportWidth);
+        float targetY = _random.Next(0, viewportHeight);
 
-            int steps = _random.Next(30, 60);
+        int steps = _random.Next(30, 60);
             
-            for (int step = 1; step <= steps; step++)
-            {
-                float progress = (float)step / steps;
+        for (int step = 1; step <= steps; step++)
+        {
+            float progress = (float)step / steps;
 
-                // Ease in-out
-                float easedProgress = (float)(0.5 * (1 - Math.Cos(progress * Math.PI)));
+            // Ease in-out
+            float easedProgress = (float)(0.5 * (1 - Math.Cos(progress * Math.PI)));
 
-                float x = startX + (targetX - startX) * easedProgress + _random.Next(-1, 2); // jitter
-                float y = startY + (targetY - startY) * easedProgress + _random.Next(-1, 2);
+            float x = startX + (targetX - startX) * easedProgress + _random.Next(-1, 2); // jitter
+            float y = startY + (targetY - startY) * easedProgress + _random.Next(-1, 2);
 
-                page.Mouse.MoveAsync(x, y).GetAwaiter().GetResult();
-                Task.Delay(_random.Next(100, 300)).GetAwaiter().GetResult();
-            }
-
-            startX = targetX;
-            startY = targetY;
-
-            Task.Delay(_random.Next(300, 900)).GetAwaiter().GetResult();
+            page.Mouse.MoveAsync(x, y).GetAwaiter().GetResult();
+            Task.Delay(_random.Next(100, 300)).GetAwaiter().GetResult();
         }
+
+        startX = targetX;
+        startY = targetY;
+
+        Task.Delay(_random.Next(300, 900)).GetAwaiter().GetResult();
     }
 
     public void OpenPinterestDummyTab()
@@ -198,14 +194,7 @@ public class ControlBrowserPlaywright
     
         try
         {
-            if (options == null)
-            {
-                response = tab.GotoAsync(url, new PageGotoOptions { WaitUntil = WaitUntilState.DOMContentLoaded, Timeout = timeoutMs }).GetAwaiter().GetResult();
-            }
-            else
-            {
-                response = tab.GotoAsync(url, options).GetAwaiter().GetResult();
-            }
+            response = tab.GotoAsync(url, new PageGotoOptions { Timeout = 0 }).GetAwaiter().GetResult();
             
             if (response == null)
             {
@@ -239,8 +228,18 @@ public class ControlBrowserPlaywright
         Random random = new Random();
         
         SetRandomDelay(3, 5).GetAwaiter().GetResult();
-        int numberOfSites = random.Next(1, 4); // open 1 to 3 random sites
-        RandomVisitedPages = TabManager.GotoRandomSites(MostVisitedSitesLoader.SelectRandomSitesFromFile(MostVisitedSitesPath, numberOfSites));
+        int numberOfSites = random.Next(1, 3); // open 1 to 2 random sites
+        
+        IPage[] RandomVisitedPages2 = TabManager.GotoRandomSites(MostVisitedSitesLoader.SelectRandomSitesFromFile(MostVisitedSitesPath, numberOfSites));
+        
+        // Store original length of array
+        int originalLength = RandomVisitedPages.Length;
+
+        // Resize array to hold elements of both arrays
+        Array.Resize(ref RandomVisitedPages, originalLength + RandomVisitedPages2.Length);
+
+        // Copy RandomVisitedPages2 elements into the resized RandomVisitedPages starting at originalLength
+        Array.Copy(RandomVisitedPages2, 0, RandomVisitedPages, originalLength, RandomVisitedPages2.Length);
         SetRandomDelay(3, 5).GetAwaiter().GetResult();
     }
 
