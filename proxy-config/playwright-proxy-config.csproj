@@ -11,6 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\kcg-xlib\build-log-client\build-log-client.csproj" />
+    <ProjectReference Include="..\..\kcg-xlib\build-log\build-log.csproj" />
     <ProjectReference Include="..\..\kcg-xlib\xlib-assert\xlib-assert.csproj" />
     <ProjectReference Include="..\..\kcg-xlib\xlib-io\xlib-io.csproj" />
     <ProjectReference Include="..\..\kcg-xlib\xlib-json\xlib-json.csproj" />

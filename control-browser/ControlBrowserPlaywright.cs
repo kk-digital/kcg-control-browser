@@ -194,14 +194,7 @@ public class ControlBrowserPlaywright
     
         try
         {
-            if (options == null)
-            {
-                response = tab.GotoAsync(url, new PageGotoOptions { WaitUntil = WaitUntilState.DOMContentLoaded, Timeout = timeoutMs }).GetAwaiter().GetResult();
-            }
-            else
-            {
-                response = tab.GotoAsync(url, options).GetAwaiter().GetResult();
-            }
+            response = tab.GotoAsync(url, new PageGotoOptions { Timeout = 0 }).GetAwaiter().GetResult();
             
             if (response == null)
             {
