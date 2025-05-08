@@ -179,7 +179,7 @@ public class ControlBrowserPlaywright
         }
     }
     
-    public bool GotoPage(string url, int timeoutMs = 60000, IPage tabPage = null,  PageGotoOptions options = null)
+    public bool GotoPage(string url, int timeoutMs = 60000, IPage tabPage = null)
     {
         IPage tab = tabPage;
         
@@ -194,7 +194,7 @@ public class ControlBrowserPlaywright
     
         try
         {
-            response = tab.GotoAsync(url, new PageGotoOptions { Timeout = 0 }).GetAwaiter().GetResult();
+            response = tab.GotoAsync(url, new PageGotoOptions { WaitUntil = WaitUntilState.Load, Timeout = 0 }).GetAwaiter().GetResult();
             
             if (response == null)
             {
@@ -431,7 +431,7 @@ public class ControlBrowserPlaywright
 
         while (steps < vertScrollValue)
         {
-            step = random.Next(1, 5 + 1) * random.Next(1,2);
+            step = random.Next(5,13);
             Tab.Mouse.WheelAsync(0, step).GetAwaiter().GetResult();
 
             if (ReachedBottom(Tab))
@@ -440,6 +440,7 @@ public class ControlBrowserPlaywright
             }
 
             steps += step;
+            Thread.Sleep(random.Next(50, 150));
         }
 
         return true;
