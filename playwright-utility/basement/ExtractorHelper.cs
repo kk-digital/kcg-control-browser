@@ -541,7 +541,7 @@ public class ExtractorHelper
         // eg. "https://www.pinterest.com/pin/wanna-eat-em-2023--15973773672126172/" to "https://www.pinterest.com/pin/15973773672126172/"
         // eg. "https://www.pinterest.com/pin/products--137289488887745186/" to "https://www.pinterest.com/pin/137289488887745186/"
 
-        if (string.IsNullOrEmpty(pinUrl) || pinUrl[pinUrl.Length - 1] != '/')
+        if (string.IsNullOrEmpty(pinUrl))
         {
             return string.Empty;
         }
@@ -549,17 +549,23 @@ public class ExtractorHelper
         // Find the last occurrence of "--"
         int index = pinUrl.LastIndexOf("--");
 
-        if (index != -1)
+        if (index < 0)
         {
-            // Extract everything after "--" and remove the trailing "/"
-            string extracted = pinUrl.Substring(index + 2).TrimEnd('/');
-
-            // Construct the transformed URL
-            string transformed = "/pin/" + extracted + "/";
-
-            return transformed;
+            return pinUrl;
         }
 
-        return pinUrl;
+        // Extract everything after "--" and remove the trailing "/"
+        string extracted = pinUrl.Substring(index + 2).TrimEnd('/');
+
+        // Construct the transformed URL
+        string transformed = "/pin/" + extracted + "/";
+
+        return transformed;
+    }
+    
+    public static string TransformThumbnailToFullImageUrl(string thumbnailUrl)
+    {
+        //eg. https://i.pinimg.com/236x/b7/0a/8b/b70a8b73d4c254ddcf63591fb34f5360.jpg
+        return thumbnailUrl.Replace("236x", "736x");
     }
 }
