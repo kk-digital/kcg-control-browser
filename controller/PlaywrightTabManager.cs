@@ -54,7 +54,7 @@ public class PlaywrightTabManager
         PageGotoOptions pageGotoOptions = new PageGotoOptions
         {
             WaitUntil = WaitUntilState.Load,
-            Timeout = 10000 // 10 seconds timeout
+            Timeout = 15000 // 15 seconds timeout
         };
 
         for (int i = 0; i < urls.Length; i++)
@@ -70,9 +70,11 @@ public class PlaywrightTabManager
             catch
             {
                 if (page != null)
+                {
                     page.CloseAsync().GetAwaiter().GetResult();
+                }
             }
-            int delayMs = random.Next(1500, 4000);
+            int delayMs = random.Next(3000, 5000);
             Thread.Sleep(delayMs);
         }
         
