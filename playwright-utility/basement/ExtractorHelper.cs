@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using ImageMagick;
-using UtilityNetwork;
+using UtilityHttpServer;
 
 namespace Utility;
 
@@ -408,7 +408,7 @@ public class ExtractorHelper
         // https://www.youtube.com/BTSportBoxing
         // https://www.youtube.com/channel/UCkDYIeGnavKtlGDuC0v4iyw
         // https://www.youtube.com/user/PewDiePie
-        
+
         const string baseUrl = "https://www.youtube.com/";
 
         // it must not be null or white space or empty
@@ -422,7 +422,7 @@ public class ExtractorHelper
         {
             return false;
         }
-        
+
         // Remove the base URL to analyze the path
         string path = channelUrl.Substring(baseUrl.Length);
 
@@ -431,7 +431,7 @@ public class ExtractorHelper
         // 2. Username
         // 3. channel/ChannelID
         // 4. user/Username
-        
+
         if (path.StartsWith("@"))
         {
             return path.Length > 1 && IsValidUsername(path.Substring(1));
@@ -452,7 +452,7 @@ public class ExtractorHelper
             return path.Length > 0 && IsValidUsername(path);
         }
     }
-    
+
     public static bool UrlHasValidPlaylistId(string playlistUrl)
     {
         // Valid format:
@@ -478,7 +478,7 @@ public class ExtractorHelper
         // Playlist ID must be non-empty and match the pattern of alphanumeric characters and dashes
         return IsValidPlaylistId(playlistId);
     }
-    
+
     // Helper method to validate the playlist ID using a for-loop
     private static bool IsValidPlaylistId(string playlistId)
     {
@@ -494,11 +494,11 @@ public class ExtractorHelper
 
         return playlistId.Length > 0;
     }
-    
+
     private static bool IsValidUsername(string input)
     {
         char c;
-        
+
         for (int i = 0; i < input.Length; i++)
         {
             c = input[i];
@@ -509,11 +509,11 @@ public class ExtractorHelper
         }
         return true;
     }
-    
+
     private static bool IsAlphanumericOrDashUnderscore(string input)
     {
         char c;
-        
+
         for (int i = 0; i < input.Length; i++)
         {
             c = input[i];
@@ -562,7 +562,7 @@ public class ExtractorHelper
 
         return transformed;
     }
-    
+
     public static string TransformThumbnailToFullImageUrl(string thumbnailUrl)
     {
         //eg. https://i.pinimg.com/236x/b7/0a/8b/b70a8b73d4c254ddcf63591fb34f5360.jpg

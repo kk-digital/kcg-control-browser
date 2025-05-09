@@ -14,7 +14,7 @@
   
   <ItemGroup>
     <ProjectReference Include="../proxy-config/playwright-proxy-config.csproj" />
-    <ProjectReference Include="../playwright-utility/network/network.csproj" />
+    <ProjectReference Include="../../kcg-xlib/xlib-http-server/xlib-http-server.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
