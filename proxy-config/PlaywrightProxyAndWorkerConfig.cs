@@ -29,6 +29,10 @@ public class PlaywrightProxyAndWorkerConfig
     [JsonInclude]
     [Required]
     public bool Headless;
+    
+    [JsonInclude]
+    [Required]
+    public bool UseProxy;
 
     [JsonInclude]
     [Required]
@@ -76,6 +80,7 @@ public class PlaywrightProxyAndWorkerConfig
         UserAgentsPath = null;
         MostVisitedSitesPath = null;
         StoreCookies = false;
+        UseProxy = true;
     }
 
     public PlaywrightProxyAndWorkerConfig(FilePath filePath)
@@ -123,5 +128,6 @@ public class PlaywrightProxyAndWorkerConfig
         UserAgentsPath = config.UserAgentsPath;
         MostVisitedSitesPath = config.MostVisitedSitesPath;
         StoreCookies = config.StoreCookies;
+        UseProxy = config.UseProxy;
     }
 }

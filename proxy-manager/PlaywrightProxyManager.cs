@@ -47,8 +47,8 @@ public class PlaywrightProxyManager
         {
             PlaywrightProxyInstance proxyInstance = _proxies[0];
 
-            if (!PuppeteerProxyChecker.IsProxyWorking(proxyInstance.IP, proxyInstance.Port, proxyInstance.Username,
-                    proxyInstance.Password).GetAwaiter().GetResult())
+            if (!PlaywrightProxyChecker.IsProxyWorking(proxyInstance.IP, proxyInstance.Port, proxyInstance.Username,
+                    proxyInstance.Password))
             {
                 LibLog.LogWarning($@"Proxy with IP {proxyInstance.IP} doesn't seem to be working");
                 return null;
@@ -64,8 +64,8 @@ public class PlaywrightProxyManager
             if (_proxies[n].Status == PlaywrightProxyInstance.ProxyStatus.AVAILABLE)
             {
                 
-                if (!PuppeteerProxyChecker.IsProxyWorking(_proxies[n].IP, _proxies[n].Port, _proxies[n].Username,
-                        _proxies[n].Password).GetAwaiter().GetResult())
+                if (!PlaywrightProxyChecker.IsProxyWorking(_proxies[n].IP, _proxies[n].Port, _proxies[n].Username,
+                        _proxies[n].Password))
                 {
                     LibLog.LogWarning($@"Proxy with IP {_proxies[n].IP} doesn't seem to be working");
                     continue;

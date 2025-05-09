@@ -28,7 +28,7 @@ public class PlaywrightController
         Headless = headless;
     }
 
-    public void InitializeBrowserOld(string userDataDir = "")
+    public void InitializeBrowserPersistent(string userDataDir = "")
     {
         IPlaywright playWright = Playwright.CreateAsync().GetAwaiter().GetResult();
         BrowserTypeLaunchPersistentContextOptions opt = new BrowserTypeLaunchPersistentContextOptions();
