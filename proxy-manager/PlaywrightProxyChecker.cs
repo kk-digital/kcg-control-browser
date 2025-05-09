@@ -1,5 +1,5 @@
 ﻿using System.Net;
-using UtilityNetwork;
+using UtilityHttpServer;
 using StreamReader = System.IO.StreamReader;
 
 namespace PlaywrightProxyManager;
@@ -27,15 +27,15 @@ public class PlaywrightProxyChecker
             return false;
         }
     }
-    
+
     public static bool IsValidIpAddress(string ipAddress)
     {
         IPAddress ip;
         bool result = IPAddress.TryParse(ipAddress, out ip);
-        
+
         return result && ip.ToString() == ipAddress;
     }
-    
+
     public static bool IsValidPortNumber(string sPortNumber)
     {
         // port must be an integer between 1 and 65535
@@ -43,10 +43,10 @@ public class PlaywrightProxyChecker
         {
             return false;
         }
-        
+
         return true;
     }
-    
+
     public static bool IsValidProxyEntry(string proxyEntry)
     {
         // eg. 168.111.222.132:4000:username:password
@@ -71,7 +71,7 @@ public class PlaywrightProxyChecker
         {
             return false;
         }
-        
+
         if (!IsValidPortNumber(portPart))
         {
             return false;
@@ -81,7 +81,7 @@ public class PlaywrightProxyChecker
         {
             return false;
         }
-        
+
         if (string.IsNullOrWhiteSpace(passwordPart))
         {
             return false;
@@ -90,7 +90,7 @@ public class PlaywrightProxyChecker
         // All checks passed
         return true;
     }
-    
+
     // validates a proxy file
     public static bool IsValidProxyFile(string filePath)
     {
@@ -100,7 +100,7 @@ public class PlaywrightProxyChecker
         }
 
         StreamReader reader = null;
-        
+
         try
         {
             reader = new StreamReader(filePath);
