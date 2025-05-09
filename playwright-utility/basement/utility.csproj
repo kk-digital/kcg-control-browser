@@ -11,13 +11,14 @@
 
   <ItemGroup>
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.4.0" />
+    <PackageReference Include="Microsoft.Playwright" Version="1.47.0" />
     <PackageReference Include="MongoDB.Driver" Version="3.0.0" />
     <PackageReference Include="Titanium.Web.Proxy" Version="3.2.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="../network/network.csproj" />
-    <ProjectReference Include="..\..\..\kcg-xlib\xlib-io\xlib-io.csproj" />
+    <ProjectReference Include="../../../kcg-xlib/xlib-io/xlib-io.csproj" />
   </ItemGroup>
 
   <ItemGroup>
