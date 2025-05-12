@@ -110,6 +110,4 @@ public class CaptchaDetector
         // Return true if CAPTCHA is detected after all retries
         return true;
     }
-
-
 }
