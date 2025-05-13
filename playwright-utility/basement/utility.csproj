@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../network/network.csproj" />
     <ProjectReference Include="../../../kcg-xlib/xlib-io/xlib-io.csproj" />
     <ProjectReference Include="../../../kcg-xlib/xlib-http-server/xlib-http-server.csproj" />
   </ItemGroup>
