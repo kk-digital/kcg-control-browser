@@ -5,14 +5,17 @@ using UtilityIO;
 
 namespace user_profile_management;
 
-// use to manage browser user profiles
+// Used to manage browser user profiles (loading, generating, and selecting profiles)
 
 public class UserProfileManager
 {
+    // Base folder where all user profiles are stored
     public static string UserProfilesBaseFolder;
 
+    // Loads all browser profiles associated with a given proxy IP from disk
     public static ProxyIpWithProfiles LoadUserProfilesByIp(string proxyIp, string baseFolder)
     {
+        // Replace dots in IP with underscores for safe folder naming
         string safeIp = proxyIp.Replace('.', '_');
         string proxyFolder = Path.Combine(baseFolder, "proxy_" + safeIp);
 
@@ -22,8 +25,10 @@ public class UserProfileManager
         }
         List<BrowserProfile> profiles = new List<BrowserProfile>();
 
+        // Find all profile folders under the proxy folder
         string[] profileFolders = Directory.GetDirectories(proxyFolder, "profile_*");
 
+        // For each profile folder, load the profile.json file and deserialize it
         for (int i = 0; i < profileFolders.Length; i++)
         {
             string folder = profileFolders[i];
@@ -36,6 +41,7 @@ public class UserProfileManager
             }
         }
 
+        // Return a ProxyIpWithProfiles object containing the proxy IP and its loaded profiles
         return new ProxyIpWithProfiles
         {
             ProxyIp = proxyIp,
@@ -43,15 +49,18 @@ public class UserProfileManager
         };
     }
     
+    // Generates browser user profiles for each proxy IP using geo data and user agents, and saves them to disk
     public static void GenerateProfilesByProxies(string proxiesGeoLocationDataPath, string userAgentsPath, string baseFolder)
     {
         LibLog.LogInfo("Generating user profiles");
         
+        // Load proxy IP geolocation data from JSON file
         ProxyIpGeoLocation[] proxyIpGeoLocations = ProxyIpGeoLocation.LoadFromJson(File.ReadAllText(proxiesGeoLocationDataPath));
         string[] userAgents = UserAgentsLoader.LoadUserAgentsFromFile(userAgentsPath);
+        // Calculate how many profiles to generate per proxy
         int profilesPerProxy = userAgents.Length / proxyIpGeoLocations.Length;
         
-        // Clean base folder
+        // Clean the base folder if it exists
         if (Directory.Exists(baseFolder))
         {
             Directory.Delete(baseFolder, true);
@@ -63,6 +72,7 @@ public class UserProfileManager
         Random random = new Random();
         string prevAcceptLanguage = "";
 
+        // For each proxy IP, generate the required number of profiles
         for (int p = 0; p < proxyIpGeoLocations.Length; p++)
         {
             string proxyIp = proxyIpGeoLocations[p].Ip;
@@ -73,13 +83,16 @@ public class UserProfileManager
             
             for (int i = 0; i < profilesPerProxy; i++)
             {
+                // Generate a unique profile folder name
                 string profileName = "profile_" + uniqueProfileCounter.ToString("D3");
                 string profileFolder = PathUtils.Combine(proxyFolder, profileName);
                 
                 Directory.CreateDirectory(profileFolder);
+                // Get the next user agent from the list
                 string userAgent = userAgents[userAgentIndex++];
                 BrowserProfile profile;
 
+                // Select a profile template matching the proxy's timezone and ensure accept language is not repeated
                 do
                 {
                     profile = GetProfileByTimeZone(proxyIpGeoLocations[p].TimeZone);
@@ -87,11 +100,13 @@ public class UserProfileManager
                 
                 prevAcceptLanguage = profile.AcceptLanguage;
                 
+                // Set storage state file path and geo coordinates
                 profile.StorageStateFilePath = PathUtils.Combine(profileFolder, "storage-state.json");
                 profile.Latitude = proxyIpGeoLocations[p].Latitude;
                 profile.Longitude = proxyIpGeoLocations[p].Longitude;
                 profile.UserAgent = userAgent;
                 
+                // Generate realistic browser and screen/window/viewport dimensions
                 (int screenWidth, int screenHeight, int windowWidth, int windowHeight, int viewportWidth, int viewportHeight) dimensions = RealisticViewportGenerator.GetRandomWindowAndViewport();
                 
                 profile.DisplayResolution = new DisplayResolution()
@@ -112,6 +127,7 @@ public class UserProfileManager
                     Height = dimensions.viewportHeight,
                 };
                 
+                // Serialize the profile to JSON and save it in the profile folder
                 File.WriteAllText(PathUtils.Combine(profileFolder, "profile.json"),
                     JsonSerializer.Serialize(profile, new JsonSerializerOptions { WriteIndented = true }));
 
@@ -197,6 +213,7 @@ public class UserProfileManager
             new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "Pacific/Midway" }
         };
 
+        // Use a selector to pick a profile with a matching timezone
         ProfileSelector selector = new ProfileSelector(profiles);
         return selector.GetWeightedRandomProfileByTimeZone(timeZone);
     }
