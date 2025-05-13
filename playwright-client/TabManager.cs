@@ -12,8 +12,8 @@ public class PlaywrightTabManager
 // fields
 private IBrowserContext _context;
 static List<Tab> _tabs; // store list of currently open tabs
-                        //===================================================================================================================
-                        // properties
+//===================================================================================================================
+// properties
 public int ActiveTabIndex { get; set; } = 0;
 //===================================================================================================================
 // constructor
