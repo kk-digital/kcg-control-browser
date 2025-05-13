@@ -52,6 +52,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xlib-http-server", "..\kcg-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xlib-http-response", "..\kcg-xlib\xlib-http-response\xlib-http-response.csproj", "{977F1BB4-6C67-4F6A-A7DC-61E93DE7EA2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "playwright-browser-automation", "playwright-browser-automation\playwright-browser-automation.csproj", "{0AA928BF-8650-4947-AE8C-97C1EFBB6041}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -330,6 +332,18 @@ Global
 		{977F1BB4-6C67-4F6A-A7DC-61E93DE7EA2E}.Release|x64.Build.0 = Release|Any CPU
 		{977F1BB4-6C67-4F6A-A7DC-61E93DE7EA2E}.Release|x86.ActiveCfg = Release|Any CPU
 		{977F1BB4-6C67-4F6A-A7DC-61E93DE7EA2E}.Release|x86.Build.0 = Release|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Debug|x64.Build.0 = Debug|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Debug|x86.Build.0 = Debug|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Release|x64.ActiveCfg = Release|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Release|x64.Build.0 = Release|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Release|x86.ActiveCfg = Release|Any CPU
+		{0AA928BF-8650-4947-AE8C-97C1EFBB6041}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
