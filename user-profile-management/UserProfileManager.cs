@@ -5,6 +5,8 @@ using UtilityIO;
 
 namespace user_profile_management;
 
+// use to manage browser user profiles
+
 public class UserProfileManager
 {
     public static string UserProfilesBaseFolder;
@@ -122,27 +124,80 @@ public class UserProfileManager
     
     public static BrowserProfile GetProfileByTimeZone(string timeZone)
     {
-        List<BrowserProfile> profiles = new List<BrowserProfile>
+        BrowserProfile[] profiles = new BrowserProfile[]
         {
-            // en-US, q=0.9
-            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/New_York" },
-            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Chicago" },
-            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Denver" },
-            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Los_Angeles" },
-            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Anchorage" },
-            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "Pacific/Honolulu" },
+            // en-US, q=0.9 - Mainland U.S. time zones
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/New_York" },              // Eastern Time
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Detroit" },               // Eastern Time (Michigan)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Kentucky/Louisville" },   // Eastern Time (Kentucky)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Kentucky/Monticello" },   // Eastern Time (Kentucky)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Indiana/Indianapolis" },  // Eastern Time (Indiana)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Indiana/Vincennes" },     // Eastern Time (Indiana)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Indiana/Winamac" },       // Eastern Time (Indiana)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Indiana/Marengo" },       // Eastern Time (Indiana)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Indiana/Petersburg" },    // Eastern Time (Indiana)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Indiana/Vevay" },         // Eastern Time (Indiana)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Chicago" },               // Central Time
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Indiana/Knox" },          // Central Time (Indiana)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Menominee" },             // Central Time (Michigan)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/North_Dakota/Center" },   // Central Time (ND)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/North_Dakota/New_Salem" },// Central Time (ND)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/North_Dakota/Beulah" },   // Central Time (ND)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Denver" },                // Mountain Time
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Boise" },                 // Mountain Time (Idaho)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Phoenix" },               // Mountain Standard Time (Arizona - no DST)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Los_Angeles" },           // Pacific Time
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Anchorage" },             // Alaska Time
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Juneau" },                // Alaska Time
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Nome" },                  // Alaska Time
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Sitka" },                 // Alaska Time
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Yakutat" },               // Alaska Time
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "Pacific/Honolulu" },              // Hawaii-Aleutian Time
 
-            // en-US, q=0.8
+            // U.S. Territories
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/Puerto_Rico" },           // Atlantic Time (Puerto Rico)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "America/St_Thomas" },             // Atlantic Time (U.S. Virgin Islands)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "Pacific/Samoa" },                 // Samoa Time (American Samoa)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "Pacific/Guam" },                  // Chamorro Time (Guam)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "Pacific/Marquesas" },             // Marquesas Time (U.S. Minor Outlying Islands)
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.9", Locale = "en-US", Timezone = "Pacific/Midway" },                // Samoa Time Zone (U.S. Minor Outlying Islands)
+
+            // Repeat above with q=0.8 for AcceptLanguage
             new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/New_York" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Detroit" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Kentucky/Louisville" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Kentucky/Monticello" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Indiana/Indianapolis" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Indiana/Vincennes" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Indiana/Winamac" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Indiana/Marengo" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Indiana/Petersburg" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Indiana/Vevay" },
             new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Chicago" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Indiana/Knox" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Menominee" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/North_Dakota/Center" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/North_Dakota/New_Salem" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/North_Dakota/Beulah" },
             new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Denver" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Boise" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Phoenix" },
             new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Los_Angeles" },
             new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Anchorage" },
-            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "Pacific/Honolulu" }
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Juneau" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Nome" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Sitka" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Yakutat" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "Pacific/Honolulu" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/Puerto_Rico" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "America/St_Thomas" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "Pacific/Samoa" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "Pacific/Guam" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "Pacific/Marquesas" },
+            new BrowserProfile { AcceptLanguage = "en-US,en;q=0.8", Locale = "en-US", Timezone = "Pacific/Midway" }
         };
 
         ProfileSelector selector = new ProfileSelector(profiles);
-        return selector.GetProfileByTimezone(timeZone);
+        return selector.GetWeightedRandomProfileByTimeZone(timeZone);
     }
-
 }
