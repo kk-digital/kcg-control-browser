@@ -203,28 +203,4 @@ public class ProfileSelector
 
         return null;
     }
-
-    public BrowserProfile GetProfileByTimeZone(string timezone)
-    {
-        List<BrowserProfile> matchingProfiles = new List<BrowserProfile>();
-
-        for (int i = 0; i < _profiles.Length; i++)
-        {
-            BrowserProfile profile = _profiles[i];
-            if (string.Equals(profile.Timezone, timezone, StringComparison.OrdinalIgnoreCase))
-            {
-                matchingProfiles.Add(profile);
-            }
-        }
-
-        if (matchingProfiles.Count == 0)
-        {
-            LibLog.LogError($"No profile found for timezone: {timezone}");
-            return null;
-        }
-
-        Random random = new Random();
-        int index = random.Next(matchingProfiles.Count);
-        return matchingProfiles[index];
-    }
 }
