@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Library</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>playwright_browser_automation</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+        <OutputPath>$(SolutionDir)build/$(MSBuildProjectName)/</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
+        <kcgXlibPath>../../../kcg-xlib</kcgXlibPath>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Playwright" Version="1.47.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
+    </ItemGroup>
+
+    <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
+
+    <Target Name="BuildLogTask" BeforeTargets="PostBuildEvent">
+        <PropertyGroup>
+            <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
+        </PropertyGroup>
+
+        <BuildLogTask
+                EventName="BuildLog"
+                LogFile="$(kcgXlibPath)/build-log/data/logs-build/build-log.json"
+                BuildStart="$(BuildStartTimeUtc)"
+                BuildEnd="$(BuildEndTimeUtc)"
+        />
+    </Target>
+
+</Project>
