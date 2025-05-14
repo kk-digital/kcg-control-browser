@@ -9,7 +9,7 @@ public class BrowserTab
 {
     // Unique identifier (UUID) for this tab.
     // This allows stable identification independent of tab position or order.
-    public Uid64 Id { get; } = Uid64.CreateNewUid();
+    public Uid64 Id { get; }
 
     // The Playwright page instance representing the actual browser tab.
     // This provides access to navigation, content, and browser interactions.
@@ -22,4 +22,10 @@ public class BrowserTab
     // The URL of the web page loaded in this tab.
     // Should be kept in sync with the current page URL.
     public string Url { get; set; }
+
+    // Constructor initializes the unique ID for this tab
+    public BrowserTab()
+    {
+        Id = Uid64.CreateNewUid();
+    }
 }

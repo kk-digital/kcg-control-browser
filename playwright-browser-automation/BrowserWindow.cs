@@ -9,14 +9,14 @@ public class BrowserWindow
 {
     // Unique identifier (UUID) for this browser window.
     // Allows stable identification independent of window order or position.
-    public Uid64 Id { get; } = Uid64.CreateNewUid();
+    public Uid64 Id { get; }
 
     // The Playwright browser context associated with this window.
     // Provides isolation for cookies, cache, and storage shared by all tabs in this window.
     public IBrowserContext Context { get; set; }
 
     // Internal array holding all tabs (BrowserTab instances) opened in this window.
-    private BrowserTab[] _tabs = new BrowserTab[0];
+    private BrowserTab[] _tabs = Array.Empty<BrowserTab>();
 
     // Public read-only property exposing the tabs array.
     public BrowserTab[] Tabs
@@ -27,6 +27,15 @@ public class BrowserWindow
     // The unique identifier of the currently active tab in this window.
     // Uid64.Default indicates that no tab is currently active.
     public Uid64 ActiveTabId = Uid64.Default;
+    
+    // manage network requests
+    RequestManager RequestManager = new RequestManager();
+
+    // constructor
+    public BrowserWindow()
+    {
+        Id = Uid64.CreateNewUid();
+    }
 
     // Adds a new tab to this window.
     // Resizes the internal array to accommodate the new tab.
