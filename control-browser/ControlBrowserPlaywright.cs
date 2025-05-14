@@ -229,8 +229,25 @@ public class ControlBrowserPlaywright
         
         SetRandomDelay(3, 5).GetAwaiter().GetResult();
         int numberOfSites = random.Next(1, 3); // open 1 to 2 random sites
+        bool anyCommon = true;
+        IPage[] RandomVisitedPages2;
+
+        do
+        {
+            RandomVisitedPages2 = TabManager.GotoRandomSites(MostVisitedSitesLoader.SelectRandomSitesFromFile(MostVisitedSitesPath, numberOfSites));
+            
+            if (RandomVisitedPages.Length == 0)
+            {
+                break;
+            }
+            
+            // Find intersection elements
+            IPage[] intersection = RandomVisitedPages.Intersect(RandomVisitedPages2).ToArray();
+            // Check if any common elements exist
+            anyCommon = intersection.Length > 0;
+        } while (anyCommon);
         
-        IPage[] RandomVisitedPages2 = TabManager.GotoRandomSites(MostVisitedSitesLoader.SelectRandomSitesFromFile(MostVisitedSitesPath, numberOfSites));
+        //IPage[] RandomVisitedPages2 = TabManager.GotoRandomSites(MostVisitedSitesLoader.SelectRandomSitesFromFile(MostVisitedSitesPath, numberOfSites));
         
         // Store original length of array
         int originalLength = RandomVisitedPages.Length;
