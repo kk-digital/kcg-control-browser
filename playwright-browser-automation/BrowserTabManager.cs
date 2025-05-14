@@ -8,7 +8,10 @@ namespace playwright_browser_automation;
 public class BrowserTabManager
 {
     // Internal array storing all browser tabs managed by this instance.
-    private BrowserTab[] _tabs = new BrowserTab[0];
+    private BrowserTab[] _tabs = Array.Empty<BrowserTab>();
+    
+    // Returns the full HTML content (DOM) of the tab
+    public string DomContent { get; set; }
 
     // Creates a new BrowserTab for the given Playwright page,
     // adds it to the internal array, and returns the new tab.
@@ -116,5 +119,20 @@ public class BrowserTabManager
         {
             return string.Empty;
         }
+    }
+    
+    // Returns the full HTML content (DOM) of the tab identified by tabId.
+    // Returns null if the tab or its page is not found.
+    public async Task GetTabDomAsync(Uid64 tabId)
+    {
+        BrowserTab tab = GetTab(tabId);
+        
+        if (tab == null || tab.Page == null)
+        {
+            DomContent = string.Empty;
+        }
+
+        // Get the full HTML content of the page (DOM)
+        DomContent = await tab.Page.ContentAsync();
     }
 }

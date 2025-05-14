@@ -18,6 +18,10 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\playwright-browser-automation\playwright-browser-automation.csproj" />
+    </ItemGroup>
+
     <PropertyGroup>
         <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
         <kcgXlibPath>../../kcg-xlib</kcgXlibPath>
