@@ -101,7 +101,7 @@ public class UserProfileManager
                 prevAcceptLanguage = profile.AcceptLanguage;
                 
                 // Set storage state file path and geo coordinates
-                profile.StorageStateFilePath = PathUtils.Combine(profileFolder, "storage-state.json");
+                profile.StorageStateFilePath = $"proxy_{ipName}/{profileName}/storage-state.json";
                 profile.Latitude = proxyIpGeoLocations[p].Latitude;
                 profile.Longitude = proxyIpGeoLocations[p].Longitude;
                 profile.UserAgent = userAgent;

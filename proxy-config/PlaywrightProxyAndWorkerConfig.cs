@@ -41,23 +41,8 @@ public class PlaywrightProxyAndWorkerConfig
 
     [JsonInclude]
     [Required]
-    [JsonConverter(typeof(FilePathJsonConverter))]
-    public FilePath GeoLocationDataPath;    // path to a .json file where proxies geo location data is stored
-
-    [JsonInclude]
-    [Required]
-    [JsonConverter(typeof(FilePathJsonConverter))]
-    public FilePath UserAgentsPath;         // path to a .txt file where browser user agents data is stored
-
-    [JsonInclude]
-    [Required]
     public string UserProfilesDirPath;      // path to a folder where browser context user profiles are stored
-
-    [JsonInclude]
-    [Required]
-    [JsonConverter(typeof(FilePathJsonConverter))]
-    public FilePath MostVisitedSitesPath;         // path to a .txt file containing a list of most visited sites in the U.S.
-
+    
     [JsonInclude]
     [Required]
     public bool StoreCookies;
@@ -76,9 +61,6 @@ public class PlaywrightProxyAndWorkerConfig
         ProxiesPath = null;
         DownloadFullResolutionImage = false;
         UserProfilesDirPath = null;
-        GeoLocationDataPath = null;
-        UserAgentsPath = null;
-        MostVisitedSitesPath = null;
         StoreCookies = false;
         UseProxy = true;
     }
@@ -95,9 +77,6 @@ public class PlaywrightProxyAndWorkerConfig
         Utils.Assert(config.ProxiesPath != null, "Proxies file path not found in configuration.");
         Utils.Assert(config.ChromiumDirPath != null, "Chromium directory path not found in configuration.");
         Utils.Assert(config.UserProfilesDirPath != null, "User Profiles directory path not found in configuration.");
-        Utils.Assert(config.GeoLocationDataPath != null, "Geo Location Data file path not found in configuration.");
-        Utils.Assert(config.UserAgentsPath != null, "User Agents file path not found in configuration.");
-        Utils.Assert(config.MostVisitedSitesPath != null, "Most Visited Sites' file path not found in configuration.");
 
         ChromiumDirPath = config.ChromiumDirPath;
 
@@ -124,9 +103,6 @@ public class PlaywrightProxyAndWorkerConfig
         ProxiesPath = config.ProxiesPath;
         DownloadFullResolutionImage = config.DownloadFullResolutionImage;
         UserProfilesDirPath = config.UserProfilesDirPath;
-        GeoLocationDataPath = config.GeoLocationDataPath;
-        UserAgentsPath = config.UserAgentsPath;
-        MostVisitedSitesPath = config.MostVisitedSitesPath;
         StoreCookies = config.StoreCookies;
         UseProxy = config.UseProxy;
     }
