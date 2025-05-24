@@ -73,7 +73,7 @@ public class PlaywrightController
         ProxyIpWithProfiles profiles = UserProfileManager.LoadUserProfilesByIp(ip, UserProfileManager.UserProfilesBaseFolder);
         BrowserProfile profile = profiles.GetProfileToUse();
         BrowserNewContextOptions newContextOptions = new BrowserNewContextOptions();
-        ContextStorageStateFilePath = profile.StorageStateFilePath;
+        ContextStorageStateFilePath = PathUtils.Combine(UserProfileManager.UserProfilesBaseFolder,profile.StorageStateFilePath);
         
         if (!string.IsNullOrWhiteSpace(ContextStorageStateFilePath) && File.Exists(ContextStorageStateFilePath))
         {
@@ -134,28 +134,38 @@ public class PlaywrightController
     {
         try
         {
+            // Check if the browser context is available
             if (Context != null)
             {
                 if (StoreCookies)
                 {
-                    // Assume jsonString is your compact JSON string
+                    // Get the current storage state as a compact JSON string
                     string jsonString = Context.StorageStateAsync().GetAwaiter().GetResult();
+
+                    // Deserialize the compact JSON into a structured object
                     ContextStorageState contextStorageState = JsonSerializer.Deserialize<ContextStorageState>(jsonString);
 
+                    // Prepare options to format the output JSON with indentation and relaxed escaping
                     JsonSerializerOptions options = new JsonSerializerOptions
                     {
                         WriteIndented = true,
                         Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                     };
+
+                    // Serialize the storage state back to a nicely formatted JSON string
                     string prettyJson = JsonSerializer.Serialize(contextStorageState, options);
+
+                    // Write the formatted JSON to the specified file
                     File.WriteAllText(storageStateFilePath, prettyJson);
                 }
-                
+
+                // Close the browser context
                 Context.CloseAsync().GetAwaiter().GetResult();
             }
         }
         catch (Exception)
         {
+            // Silently ignore any exceptions (not recommended for production without logging)
         }
     }
 }
