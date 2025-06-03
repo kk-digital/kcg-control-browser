@@ -130,6 +130,20 @@ public class PlaywrightController
         }
     }
     
+    public async Task CloseBrowserAsync()
+    {
+        try
+        {
+            if (Context != null)
+            {
+                await Context.CloseAsync();
+            }
+        }
+        catch (Exception)
+        {
+        }
+    }
+    
     public void CloseBrowserAfterSavedStorageState(string storageStateFilePath)
     {
         try
@@ -161,6 +175,45 @@ public class PlaywrightController
 
                 // Close the browser context
                 Context.CloseAsync().GetAwaiter().GetResult();
+            }
+        }
+        catch (Exception)
+        {
+            // Silently ignore any exceptions (not recommended for production without logging)
+        }
+    }
+    
+    public async Task CloseBrowserAfterSavedStorageStateAsync(string storageStateFilePath)
+    {
+        try
+        {
+            // Check if the browser context is available
+            if (Context != null)
+            {
+                if (StoreCookies)
+                {
+                    // Get the current storage state as a compact JSON string
+                    string jsonString = await Context.StorageStateAsync();
+
+                    // Deserialize the compact JSON into a structured object
+                    ContextStorageState contextStorageState = JsonSerializer.Deserialize<ContextStorageState>(jsonString);
+
+                    // Prepare options to format the output JSON with indentation and relaxed escaping
+                    JsonSerializerOptions options = new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    };
+
+                    // Serialize the storage state back to a nicely formatted JSON string
+                    string prettyJson = JsonSerializer.Serialize(contextStorageState, options);
+
+                    // Write the formatted JSON to the specified file
+                    File.WriteAllText(storageStateFilePath, prettyJson);
+                }
+
+                // Close the browser context
+                await Context.CloseAsync();
             }
         }
         catch (Exception)
