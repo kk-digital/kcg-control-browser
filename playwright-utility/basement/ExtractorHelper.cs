@@ -401,6 +401,38 @@ public class ExtractorHelper
 
         return numberPart.All(char.IsDigit);
     }
+    
+    public static string GeneratePinterestBoardIdFromUrl(string boardUrl)
+    {
+        if (string.IsNullOrWhiteSpace(boardUrl))
+        {
+            return string.Empty;
+        }
+
+        try
+        {
+            Uri uri = new Uri(boardUrl);
+
+            // Split the URL path into segments, ignoring empty segments
+            string[] segments = uri.AbsolutePath.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // We expect at least two segments: username and board name
+            if (segments.Length >= 2)
+            {
+                string username = segments[segments.Length - 2];
+                string boardName = segments[segments.Length - 1];
+
+                return username + "-" + boardName;
+            }
+        }
+        catch (UriFormatException)
+        {
+            // Invalid URL format
+            return string.Empty;
+        }
+
+        return string.Empty;
+    }
 
     public static bool UrlHasValidChannelId(string channelUrl)
     {
