@@ -466,7 +466,15 @@ public class ExtractorHelper
 
         if (path.StartsWith("@"))
         {
-            return path.Length > 1 && IsValidUsername(path.Substring(1));
+            if (path.EndsWith("/playlists"))
+            {
+                string userName = path.Substring(1, path.Length - "/playlists".Length - 1);
+                return path.Length > 1 && IsValidUsername(userName);
+            }
+            else
+            {
+                return path.Length > 1 && IsValidUsername(path.Substring(1));
+            }
         }
         else if (path.StartsWith("channel/"))
         {
