@@ -355,7 +355,7 @@ public class ControlBrowserPlaywright
         Random random = new Random();
         
         SetRandomDelay(3, 5).GetAwaiter().GetResult();
-        int numberOfSites = random.Next(1, 3); // open 1 to 2 random sites
+        int numberOfSites = random.Next(1, 4); // open 1 to 3 random sites
         bool anyCommon = true;
         IPage[] RandomVisitedPages2;
 
@@ -392,7 +392,7 @@ public class ControlBrowserPlaywright
         Random random = new Random();
         
         await SetRandomDelay(3, 5);
-        int numberOfSites = random.Next(1, 3); // open 1 to 2 random sites
+        int numberOfSites = random.Next(2, 4); // open random sites
         bool anyCommon = true;
         IPage[] RandomVisitedPages2;
 
