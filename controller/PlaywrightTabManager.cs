@@ -174,97 +174,6 @@ public class PlaywrightTabManager
     }
     
     // simulate human-like mouse actions on the page
-    public void PerformRandomMouseActionsOld(IPage[] pages)
-    {
-        Random random = new Random();
-        
-        // Delay before starting actions (e.g., 3 to 5 seconds)
-        Thread.Sleep(random.Next(3000, 5000));
-
-        // Copy pages to a list for shuffling
-        List<IPage> shuffledPages = new List<IPage>(pages);
-
-        // Fisher-Yates shuffle
-        for (int i = shuffledPages.Count - 1; i > 0; i--)
-        {
-            int j = random.Next(0, i + 1);
-            IPage temp = shuffledPages[i];
-            shuffledPages[i] = shuffledPages[j];
-            shuffledPages[j] = temp;
-        }
-
-        for (int i = 0; i < shuffledPages.Count; i++)
-        {
-            IPage page = shuffledPages[i];
-
-            // Switch to this tab (bring to front)
-            page.BringToFrontAsync().GetAwaiter().GetResult();
-
-            // Assume viewport size is always available
-            int width = page.ViewportSize.Width;
-            int height = page.ViewportSize.Height;
-
-            // Move mouse to a random position
-            int x = random.Next(0, width);
-            int y = random.Next(0, height);
-            page.Mouse.MoveAsync(x, y, new MouseMoveOptions { Steps = random.Next(15, 35) }).GetAwaiter().GetResult();
-
-            // Random delay
-            Thread.Sleep(random.Next(800, 2000));
-
-            // Randomly decide to click (50% chance)
-            double clickChance = random.NextDouble();
-            if (clickChance > 0.5)
-            {
-                page.Mouse.ClickAsync(x, y).GetAwaiter().GetResult();
-                Thread.Sleep(random.Next(3000,5000));
-            }
-
-            // Perform random scroll
-            int scrollAmount = random.Next(100, 800);
-            double directionChance = random.NextDouble();
-            if (directionChance <= 0.5)
-            {
-                scrollAmount = -scrollAmount;
-            }
-
-            // Get current scroll position (evaluate JS)
-            int currentScrollY = page.EvaluateAsync<int>("() => window.scrollY").GetAwaiter().GetResult();
-
-            // Calculate new scroll position, clamp to >= 0
-            int newScrollY = currentScrollY + scrollAmount;
-            if (newScrollY < 0)
-            {
-                newScrollY = 0;
-            }
-
-            // Smooth scroll simulation: scroll in small steps
-            int steps = random.Next(10, 30);
-            int stepSize = 0;
-            if (steps != 0)
-            {
-                stepSize = (newScrollY - currentScrollY) / steps;
-            }
-
-            for (int j = 1; j <= steps; j++)
-            {
-                int scrollY = currentScrollY + stepSize * j;
-                page.EvaluateAsync($"window.scrollTo(0, {scrollY})").GetAwaiter().GetResult();
-                Thread.Sleep(random.Next(30, 80)); // small delay between scroll steps
-            }
-
-            // Random delay after scrolling
-            Thread.Sleep(random.Next(2000, 5000));
-
-            // Move mouse to another random spot after scrolling
-            int x2 = random.Next(0, width);
-            int y2 = random.Next(0, height);
-            page.Mouse.MoveAsync(x2, y2, new MouseMoveOptions { Steps = random.Next(10, 25) }).GetAwaiter().GetResult();
-
-            Thread.Sleep(random.Next(800, 1800));
-        }
-    }
-    
     public void PerformRandomMouseActions(IPage[] pages)
     {
         Random random = new Random();
@@ -418,6 +327,7 @@ public class PlaywrightTabManager
         }
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task PerformRandomMouseActionsAsync(IPage[] pages)
     {
         Random random = new Random();

@@ -26,6 +26,13 @@ public class ControlBrowserPlaywright
     public string DummyUrl = string.Empty;
     public IPage[] RandomVisitedPages = Array.Empty<IPage>();
     public string MostVisitedSitesPath = string.Empty;
+    
+    // use for pinterest wandering mode in CdxLocalClient app
+    public IPage RandomBoardPage = null;    // use for opening random board page from the board search results page
+    public IPage RandomPinPage = null;      // use for opening random pin page from currently-opened board page
+    public IPage RandomPinPage2 = null;     // use for opening a second random pin page from currently-opened board page
+    public List<IPage> RandomRelatedPinPages = new List<IPage>();
+    public HashSet<string> PinterestVisitedUrls = new HashSet<string>();
 
     public ControlBrowserPlaywright(PlaywrightTabManager tabManager)
     {
@@ -50,16 +57,42 @@ public class ControlBrowserPlaywright
         };
     }";
 
-        //Inject script to update mouse coordinates
+        // Inject script to update mouse coordinates
         page.EvaluateAsync(@"() => {
         document.addEventListener('mousemove', (event) => {
             window.mouseX = event.clientX;
             window.mouseY = event.clientY;
         });
     }").GetAwaiter().GetResult();
+
+        Dictionary<string, object> result = page.EvaluateAsync<Dictionary<string, object>>(script).GetAwaiter().GetResult();
+
+        float x = Convert.ToSingle(result["x"]);
+        float y = Convert.ToSingle(result["y"]);
+
+        return new Point { X = x, Y = y };
+    }
     
-        // Evaluate the JS function to get the current mouse coordinates
-        var result = page.EvaluateAsync<Dictionary<string, object>>(script).GetAwaiter().GetResult();
+    // needs to be asynchronous for gui-based app
+    private async Task<Point> GetCurrentMousePositionAsync(IPage page)
+    {
+        string script = @"() => {
+        return {
+            x: window.mouseX || 0,
+            y: window.mouseY || 0
+        };
+    }";
+
+        // Inject script to update mouse coordinates
+        await page.EvaluateAsync(@"() => {
+        document.addEventListener('mousemove', (event) => {
+            window.mouseX = event.clientX;
+            window.mouseY = event.clientY;
+        });
+    }");
+
+        Dictionary<string, object> result = await page.EvaluateAsync<Dictionary<string, object>>(script);
+
         float x = Convert.ToSingle(result["x"]);
         float y = Convert.ToSingle(result["y"]);
 
@@ -109,6 +142,7 @@ public class ControlBrowserPlaywright
         Task.Delay(_random.Next(300, 900)).GetAwaiter().GetResult();
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task MoveMouseRandomlyAsync(IPage page)
     {
         int viewportWidth = 1280;
@@ -193,13 +227,9 @@ public class ControlBrowserPlaywright
         }
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task OpenPinterestDummyTabAsync()
     {
-        if (_random.Next(0, 10) % 3 != 0) // give 33% chance to open random scraped pin in a new tab
-        {
-            return;
-        }
-        
         if (ExtractorHelper.IsValidUrl(DummyUrl))
         {
             DummyTab = await TabManager.OpenNewTabAsync();
@@ -306,6 +336,7 @@ public class ControlBrowserPlaywright
         return true;
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task<bool> GotoPageAsync(string url, int timeoutMs = 60000, IPage tabPage = null)
     {
         IPage tab = tabPage;
@@ -387,6 +418,7 @@ public class ControlBrowserPlaywright
         SetRandomDelay(3, 5).GetAwaiter().GetResult();
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task GotoRandomSitesAsync()
     {
         Random random = new Random();
@@ -428,6 +460,7 @@ public class ControlBrowserPlaywright
         tabPage.Mouse.WheelAsync(0, random.Next(100,200)).GetAwaiter().GetResult();
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task DoInitialScrollAsync(IPage tabPage)
     {
         Random random = new Random();
@@ -479,6 +512,7 @@ public class ControlBrowserPlaywright
         }
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task ClosePinterestLogInDialogIfFoundAsync(IPage tabPage)
     {
         try
@@ -676,6 +710,7 @@ public class ControlBrowserPlaywright
         return true;
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task<bool> ScrollDownPageAsync()
     {
         Random random = new();
@@ -694,7 +729,7 @@ public class ControlBrowserPlaywright
             }
 
             steps += step;
-            Thread.Sleep(random.Next(50, 150));
+            await Task.Delay(random.Next(50, 150));
         }
 
         return true;
@@ -723,6 +758,7 @@ public class ControlBrowserPlaywright
         return true;
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task<bool> ScrollDownRandomlyAsync(IPage tabPage)
     {
         Random random = new();
@@ -769,6 +805,7 @@ public class ControlBrowserPlaywright
         return true;
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task<bool> ScrollUpRandomlyAsync(IPage tabPage)
     {
         Random random = new();
@@ -799,10 +836,10 @@ public class ControlBrowserPlaywright
         return dom;
     }
     
-    public async Task<string> GetPageDOMAsync()
+    // needs to be asynchronous for gui-based app
+    public async Task<string> GetPageDOMAsync(IPage page)
     {
-        TabManager.AssertActive(Tab);
-        string dom = await Tab.ContentAsync();
+        string dom = await page.ContentAsync();
         return dom;
     }
 
@@ -818,6 +855,7 @@ public class ControlBrowserPlaywright
             ").GetAwaiter().GetResult();
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task<bool> ReachedBottomAsync(IPage page)
     {
         // Check if the viewport has reached the bottom of the page
@@ -842,6 +880,7 @@ public class ControlBrowserPlaywright
             ").GetAwaiter().GetResult();
     }
     
+    // needs to be asynchronous for gui-based app
     public async Task<bool> ReachedTopAsync(IPage page)
     {
         // Check if the viewport has reached the top of the page
