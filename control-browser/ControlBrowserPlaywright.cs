@@ -29,9 +29,7 @@ public class ControlBrowserPlaywright
     
     // use for pinterest wandering mode in CdxLocalClient app
     public IPage RandomBoardPage = null;    // use for opening random board page from the board search results page
-    public IPage RandomPinPage = null;      // use for opening random pin page from currently-opened board page
-    public IPage RandomPinPage2 = null;     // use for opening a second random pin page from currently-opened board page
-    public List<IPage> RandomRelatedPinPages = new List<IPage>();
+    public List<IPage> RandomPinPages = new List<IPage>(); // use for opening random pin pages from currently-opened board page
     public HashSet<string> PinterestVisitedUrls = new HashSet<string>();
 
     public ControlBrowserPlaywright(PlaywrightTabManager tabManager)
@@ -228,7 +226,7 @@ public class ControlBrowserPlaywright
     }
     
     // needs to be asynchronous for gui-based app
-    public async Task OpenPinterestDummyTabAsync()
+    public async Task OpenPinterestDummyTabAsync(IPage page)
     {
         if (ExtractorHelper.IsValidUrl(DummyUrl))
         {
@@ -259,8 +257,53 @@ public class ControlBrowserPlaywright
             }
             
             await TabManager.CloseTabAsync(DummyTab);
-            await TabManager.SwitchActiveTabAsync(Tab);
+            await TabManager.SwitchActiveTabAsync(page);
             await SetRandomDelay(3, 6);
+        }
+    }
+    
+    public async Task OpenPinterestPersistentPinTabAsync(IPage parentPage, IPage childPage)
+    {
+        if (ExtractorHelper.IsValidUrl(DummyUrl))
+        {
+            childPage = await TabManager.OpenNewTabAsync();
+            await TabManager.SwitchActiveTabAsync(childPage);
+            await GotoPageAsync(DummyUrl,0,childPage);
+            RandomPinPages.Add(childPage);
+            await SetRandomDelay(2, 5);
+            await ClosePinterestLogInDialogIfFoundAsync(childPage);
+            await SetRandomDelay(2, 5);
+            await ScrollDownPageAsync(childPage);
+            
+            for (int i = 0; i < _random.Next(3,5); i++) // number of actions
+            {
+                int actionIndex = _random.Next(1,4);
+
+                switch (actionIndex)
+                {
+                    case 1:
+                        await ScrollDownRandomlyAsync(childPage);
+                        break;
+                    case 2:
+                        await MoveMouseRandomlyAsync(childPage);
+                        break;
+                    case 3:
+                        await ScrollUpRandomlyAsync(childPage);
+                        break;
+                }
+                
+                await SetRandomDelay(1, 3);
+            }
+
+            if (_random.Next(0, 10) % 2 == 0)
+            {
+                await TabManager.CloseTabAsync(childPage);
+                RandomPinPages.RemoveAt(RandomPinPages.Count - 1);
+                await SetRandomDelay(2, 5);
+            }
+            
+            await TabManager.SwitchActiveTabAsync(parentPage);
+            await SetRandomDelay(2, 5);
         }
     }
     
@@ -496,20 +539,6 @@ public class ControlBrowserPlaywright
         catch (Exception)
         {
         }
-        
-        // if language is in spanish
-        try
-        {
-            ILocator closeButton = tabPage.Locator("button[aria-label='Cerrar abajo a la derecha Upsell']");
-            if (closeButton.IsVisibleAsync(new() { Timeout = 1000 }).GetAwaiter().GetResult())
-            {
-                SetRandomDelay(1, 3).GetAwaiter().GetResult();
-                closeButton.ClickAsync().GetAwaiter().GetResult();
-            }
-        }
-        catch (Exception)
-        {
-        }
     }
     
     // needs to be asynchronous for gui-based app
@@ -520,7 +549,7 @@ public class ControlBrowserPlaywright
             // Use a short timeout to avoid long waits if the element is not present
             ILocator signupCloseButton = tabPage.Locator("[data-test-id='full-page-signup-close-button'] button");
         
-            if (await signupCloseButton.IsVisibleAsync(new()))
+            if (await signupCloseButton.IsVisibleAsync(new LocatorIsVisibleOptions()))
             {
                 await SetRandomDelay(1, 3);
                 await signupCloseButton.ClickAsync();
@@ -533,21 +562,7 @@ public class ControlBrowserPlaywright
         try
         {
             ILocator closeButton = tabPage.Locator("button[aria-label='Close Bottom Right Upsell']");
-            if (await closeButton.IsVisibleAsync(new() { Timeout = 1000 }))
-            {
-                await SetRandomDelay(1, 3);
-                await closeButton.ClickAsync();
-            }
-        }
-        catch (Exception)
-        {
-        }
-        
-        // if language is in spanish
-        try
-        {
-            ILocator closeButton = tabPage.Locator("button[aria-label='Cerrar abajo a la derecha Upsell']");
-            if (await closeButton.IsVisibleAsync(new() { Timeout = 1000 }))
+            if (await closeButton.IsVisibleAsync(new LocatorIsVisibleOptions() { Timeout = 1000 }))
             {
                 await SetRandomDelay(1, 3);
                 await closeButton.ClickAsync();
@@ -711,19 +726,29 @@ public class ControlBrowserPlaywright
     }
     
     // needs to be asynchronous for gui-based app
-    public async Task<bool> ScrollDownPageAsync()
+    public async Task<bool> ScrollDownPageAsync(IPage page = null)
     {
         Random random = new();
         float vertScrollValue = random.Next(1, 3 + 1) * random.Next(55,97);
         float steps = 0;
         float step;
+        IPage tab;
+
+        if (page == null)
+        {
+            tab = Tab;
+        }
+        else
+        {
+            tab = page;
+        }
 
         while (steps < vertScrollValue)
         {
             step = random.Next(5,13);
-            await Tab.Mouse.WheelAsync(0, step);
+            await tab.Mouse.WheelAsync(0, step);
 
-            if (await ReachedBottomAsync(Tab))
+            if (await ReachedBottomAsync(tab))
             {
                 break;
             }
