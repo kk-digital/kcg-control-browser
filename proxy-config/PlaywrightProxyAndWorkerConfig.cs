@@ -51,6 +51,14 @@ public class PlaywrightProxyAndWorkerConfig
     [Required]
     public bool DownloadFullResolutionImage;
 
+    [JsonInclude]
+    [Required]
+    public string PinterestThumbnailsBucketName;
+
+    [JsonInclude]
+    [Required]
+    public string PinterestFullImagesBucketName;
+
     public PlaywrightProxyAndWorkerConfig()
     {
         OrchestrationUrl = null;
@@ -63,6 +71,8 @@ public class PlaywrightProxyAndWorkerConfig
         UserProfilesDirPath = null;
         StoreCookies = false;
         UseProxy = true;
+        PinterestThumbnailsBucketName = null;
+        PinterestFullImagesBucketName = null;
     }
 
     public PlaywrightProxyAndWorkerConfig(FilePath filePath)
@@ -105,5 +115,7 @@ public class PlaywrightProxyAndWorkerConfig
         UserProfilesDirPath = config.UserProfilesDirPath;
         StoreCookies = config.StoreCookies;
         UseProxy = config.UseProxy;
+        PinterestThumbnailsBucketName = config.PinterestThumbnailsBucketName;
+        PinterestFullImagesBucketName = config.PinterestFullImagesBucketName;
     }
 }
