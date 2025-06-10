@@ -285,7 +285,6 @@ public class ExtractorHelper
 
     public static bool UrlHasValidUserId(string userUrl)
     {
-        // eg. https://www.pinterest.com/BasketBCapsHat/
         // eg. https://www.pinterest.com/nba/_created/
         string domainName = "pinterest.com";
 
@@ -314,12 +313,21 @@ public class ExtractorHelper
 
         string[] parts = trimmed.Split('/');
 
-        if (parts.Length >= 2 && parts[0].Length > 0 && parts[parts.Length - 1].Equals("_created", StringComparison.OrdinalIgnoreCase))
+        if (parts.Length >= 2 && parts[0].Length > 0 && 
+            parts[parts.Length - 1].Equals("_created", StringComparison.OrdinalIgnoreCase))
         {
             return true;
         }
 
-        return parts.Length >= 2;
+        return parts.Length == 1 && !parts[0].Equals("_saved", StringComparison.OrdinalIgnoreCase);
+    }
+
+    public static bool IsValidPinterestUserUrl(string userUrl)
+    {
+        bool isValidUrl = IsValidUrl(userUrl);
+        bool isValidUserId = UrlHasValidUserId(userUrl);
+
+        return isValidUrl && isValidUserId;
     }
 
     public static bool UrlHasValidBoardId(string boardUrl)
