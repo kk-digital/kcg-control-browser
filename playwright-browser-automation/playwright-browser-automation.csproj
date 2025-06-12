@@ -11,11 +11,6 @@
         <OutputPath>$(SolutionDir)build/$(MSBuildProjectName)/</OutputPath>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
-        <kcgXlibPath>../../../kcg-xlib</kcgXlibPath>
-    </PropertyGroup>
-
     <ItemGroup>
       <PackageReference Include="Microsoft.Playwright" Version="1.47.0" />
     </ItemGroup>
@@ -23,20 +18,4 @@
     <ItemGroup>
       <ProjectReference Include="..\..\kcg-xlib\xlib-uid\xlib-uid.csproj" />
     </ItemGroup>
-
-    <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
-
-    <Target Name="BuildLogTask" BeforeTargets="PostBuildEvent">
-        <PropertyGroup>
-            <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
-        </PropertyGroup>
-
-        <BuildLogTask
-                EventName="BuildLog"
-                LogFile="$(kcgXlibPath)/build-log/data/logs-build/build-log.json"
-                BuildStart="$(BuildStartTimeUtc)"
-                BuildEnd="$(BuildEndTimeUtc)"
-        />
-    </Target>
-
 </Project>

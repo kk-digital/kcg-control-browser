@@ -16,25 +16,4 @@
     <ProjectReference Include="../proxy-config/playwright-proxy-config.csproj" />
     <ProjectReference Include="../../kcg-xlib-net/xlib-http-server/xlib-http-server.csproj" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
-    <kcgXlibPath>../../../kcg-xlib</kcgXlibPath>
-  </PropertyGroup>
-
-  <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
-
-  <Target Name="BuildLogTask" BeforeTargets="PostBuildEvent">
-    <PropertyGroup>
-      <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
-    </PropertyGroup>
-
-    <BuildLogTask
-            EventName="BuildLog"
-            LogFile="$(kcgXlibPath)/build-log/data/logs-build/build-log.json"
-            BuildStart="$(BuildStartTimeUtc)"
-            BuildEnd="$(BuildEndTimeUtc)"
-    />
-  </Target>
-  
 </Project>
