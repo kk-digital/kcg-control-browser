@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using ImageMagick;
-using UtilityHttpServer;
+using xlibHttpServer;
 
 namespace Utility;
 
@@ -313,7 +313,7 @@ public class ExtractorHelper
 
         string[] parts = trimmed.Split('/');
 
-        if (parts.Length >= 2 && parts[0].Length > 0 && 
+        if (parts.Length >= 2 && parts[0].Length > 0 &&
             parts[parts.Length - 1].Equals("_created", StringComparison.OrdinalIgnoreCase))
         {
             return true;
@@ -409,7 +409,7 @@ public class ExtractorHelper
 
         return numberPart.All(char.IsDigit);
     }
-    
+
     public static string GeneratePinterestBoardIdFromUrl(string boardUrl)
     {
         if (string.IsNullOrWhiteSpace(boardUrl))
