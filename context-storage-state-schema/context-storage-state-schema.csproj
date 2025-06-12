@@ -1,34 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-<PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>context_storage_state_schema</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>disable</Nullable>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
-    <OutputPath>$(SolutionDir)build/$(MSBuildProjectName)/</OutputPath>
-</PropertyGroup>
-
     <PropertyGroup>
-        <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
-        <kcgXlibPath>../../kcg-xlib</kcgXlibPath>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>context_storage_state_schema</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+        <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+        <OutputPath>$(SolutionDir)build/$(MSBuildProjectName)/</OutputPath>
     </PropertyGroup>
-
-    <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
-
-    <Target Name="BuildLogTask" BeforeTargets="PostBuildEvent">
-        <PropertyGroup>
-            <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
-        </PropertyGroup>
-
-        <BuildLogTask
-                EventName="BuildLog"
-                LogFile="$(kcgXlibPath)/build-log/data/logs-build/build-log.json"
-                BuildStart="$(BuildStartTimeUtc)"
-                BuildEnd="$(BuildEndTimeUtc)"
-        />
-    </Target>
-
 </Project>
 
