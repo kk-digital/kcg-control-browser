@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="../../kcg-xlib/build-log/build-log.csproj" />
+      <ProjectReference Include="..\..\kcg-xlib\xlib-uid\xlib-uid.csproj" />
     </ItemGroup>
 
     <UsingTask AssemblyFile="$(OutputPath)build-log.dll" TaskName="MyTasks.BuildLogTask"/>
