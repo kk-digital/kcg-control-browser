@@ -268,11 +268,12 @@ public class ControlBrowserPlaywright
         {
             childPage = await TabManager.OpenNewTabAsync();
             await TabManager.SwitchActiveTabAsync(childPage);
+            await SetRandomDelay(1, 4);
             await GotoPageAsync(DummyUrl,0,childPage);
             RandomPinPages.Add(childPage);
-            await SetRandomDelay(2, 5);
+            await SetRandomDelay(1, 4);
             await ClosePinterestLogInDialogIfFoundAsync(childPage);
-            await SetRandomDelay(2, 5);
+            await SetRandomDelay(1, 4);
             await ScrollDownPageAsync(childPage);
             
             for (int i = 0; i < _random.Next(3,5); i++) // number of actions
@@ -292,18 +293,18 @@ public class ControlBrowserPlaywright
                         break;
                 }
                 
-                await SetRandomDelay(1, 3);
+                await SetRandomDelay(1, 4);
             }
 
             if (_random.Next(0, 10) % 2 == 0)
             {
                 await TabManager.CloseTabAsync(childPage);
                 RandomPinPages.RemoveAt(RandomPinPages.Count - 1);
-                await SetRandomDelay(2, 5);
+                await SetRandomDelay(1, 4);
             }
             
             await TabManager.SwitchActiveTabAsync(parentPage);
-            await SetRandomDelay(2, 5);
+            await SetRandomDelay(1, 4);
         }
     }
     
@@ -747,6 +748,41 @@ public class ControlBrowserPlaywright
         {
             step = random.Next(5,13);
             await tab.Mouse.WheelAsync(0, step);
+
+            if (await ReachedBottomAsync(tab))
+            {
+                break;
+            }
+
+            steps += step;
+            await Task.Delay(random.Next(50, 150));
+        }
+
+        return true;
+    }
+    
+    // needs to be asynchronous for gui-based app
+    public async Task<bool> ScrollUpPageAsync(IPage page = null)
+    {
+        Random random = new();
+        float vertScrollValue = random.Next(1, 3 + 1) * random.Next(55,97);
+        float steps = 0;
+        float step;
+        IPage tab;
+
+        if (page == null)
+        {
+            tab = Tab;
+        }
+        else
+        {
+            tab = page;
+        }
+
+        while (steps < vertScrollValue)
+        {
+            step = random.Next(5,13);
+            await tab.Mouse.WheelAsync(0, -step);
 
             if (await ReachedBottomAsync(tab))
             {
