@@ -764,12 +764,13 @@ public class ControlBrowserPlaywright
     // needs to be asynchronous for gui-based app
     public async Task<bool> ScrollUpPageAsync(IPage page = null)
     {
+        
         Random random = new();
         float vertScrollValue = random.Next(1, 3 + 1) * random.Next(55,97);
         float steps = 0;
         float step;
         IPage tab;
-
+        
         if (page == null)
         {
             tab = Tab;
@@ -778,7 +779,21 @@ public class ControlBrowserPlaywright
         {
             tab = page;
         }
-
+        
+        // Get current vertical scroll position
+        float scrollY = await tab.EvaluateAsync<float>("() => window.scrollY");
+        
+        // If already at the top or scroll would go past top, skip scrolling
+        if (scrollY <= 0)
+        {
+            return false;
+        }
+        
+        if (scrollY - vertScrollValue <= 0)
+        {
+            return false;
+        }
+        
         while (steps < vertScrollValue)
         {
             step = random.Next(5,13);

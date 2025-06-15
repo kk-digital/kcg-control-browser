@@ -49,14 +49,10 @@
 
 using System.Text;
 using LogUtility;
-
-namespace utility;
-
-using System;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.Playwright;
 using System.Text.Json;
+
+namespace utility;
 
 public class CaptchaSolver
 {
