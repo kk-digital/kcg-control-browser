@@ -29,7 +29,8 @@ public class ControlBrowserPlaywright
     
     // use for pinterest wandering mode in CdxLocalClient app
     public IPage RandomBoardPage = null;    // use for opening random board page from the board search results page
-    public List<IPage> RandomPinPages = new List<IPage>(); // use for opening random pin pages from currently-opened board page
+    public IPage RandomPinPage = null;    // use for opening random pin page from the board page
+    //public List<IPage> RandomPinPages = new List<IPage>(); // use for opening random pin pages from currently-opened board page
     public HashSet<string> PinterestVisitedUrls = new HashSet<string>();
 
     public ControlBrowserPlaywright(PlaywrightTabManager tabManager)
@@ -270,7 +271,7 @@ public class ControlBrowserPlaywright
             await TabManager.SwitchActiveTabAsync(childPage);
             await SetRandomDelay(1, 4);
             await GotoPageAsync(DummyUrl,0,childPage);
-            RandomPinPages.Add(childPage);
+            RandomPinPage = childPage;
             await SetRandomDelay(1, 4);
             await ClosePinterestLogInDialogIfFoundAsync(childPage);
             await SetRandomDelay(1, 4);
@@ -299,7 +300,7 @@ public class ControlBrowserPlaywright
             if (_random.Next(0, 10) % 2 == 0)
             {
                 await TabManager.CloseTabAsync(childPage);
-                RandomPinPages.RemoveAt(RandomPinPages.Count - 1);
+                RandomPinPage = null;
                 await SetRandomDelay(1, 4);
             }
             
@@ -726,6 +727,28 @@ public class ControlBrowserPlaywright
         return true;
     }
     
+    public async Task ScrollPage(ControlBrowserPlaywright controlBrowser, IPage page)
+    {
+        Random random = new Random();
+        
+        // allow 10% chance to scroll back up
+        if (random.Next(0, 10) == 9)
+        {
+            bool hasScrolledUp = await controlBrowser.ScrollUpPageAsync(page);
+
+            if (!hasScrolledUp)
+            {
+                await controlBrowser.ScrollDownPageAsync(page);
+            }
+        }
+        else
+        {
+            await controlBrowser.ScrollDownPageAsync(page);
+        }
+        
+        await controlBrowser.SetRandomDelay(1,4);
+    }
+    
     // needs to be asynchronous for gui-based app
     public async Task<bool> ScrollDownPageAsync(IPage page = null)
     {
@@ -764,12 +787,13 @@ public class ControlBrowserPlaywright
     // needs to be asynchronous for gui-based app
     public async Task<bool> ScrollUpPageAsync(IPage page = null)
     {
+        
         Random random = new();
         float vertScrollValue = random.Next(1, 3 + 1) * random.Next(55,97);
         float steps = 0;
         float step;
         IPage tab;
-
+        
         if (page == null)
         {
             tab = Tab;
@@ -778,7 +802,21 @@ public class ControlBrowserPlaywright
         {
             tab = page;
         }
-
+        
+        // Get current vertical scroll position
+        float scrollY = await tab.EvaluateAsync<float>("() => window.scrollY");
+        
+        // If already at the top or scroll would go past top, skip scrolling
+        if (scrollY <= 0)
+        {
+            return false;
+        }
+        
+        if (scrollY - vertScrollValue <= 0)
+        {
+            return false;
+        }
+        
         while (steps < vertScrollValue)
         {
             step = random.Next(5,13);
