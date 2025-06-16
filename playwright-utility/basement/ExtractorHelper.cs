@@ -24,6 +24,16 @@ public class ExtractorHelper
     {
         Interlocked.Increment(ref _downloadedImageCount);
     }
+    
+    // create image file from byte array
+    public static void SaveImageBytesToFile(byte[] imageBytes, string outputPath)
+    {
+        using (MagickImage image = new MagickImage(imageBytes))
+        {
+            // Format is automatically detected and saved based on file extension
+            image.Write(outputPath);
+        }
+    }
 
     public static string CleanText(string input)
     {

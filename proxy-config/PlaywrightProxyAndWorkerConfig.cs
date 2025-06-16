@@ -3,8 +3,7 @@ using System.Text.Json.Serialization;
 using assert;
 using FileLib;
 using libJson;
-using OperatingSystem;
-using OperatingSystemEnums;
+using libOperatingSystem;
 using UtilityIO;
 
 namespace PlaywrightProxyConfig;

@@ -29,7 +29,8 @@ public class ControlBrowserPlaywright
     
     // use for pinterest wandering mode in CdxLocalClient app
     public IPage RandomBoardPage = null;    // use for opening random board page from the board search results page
-    public List<IPage> RandomPinPages = new List<IPage>(); // use for opening random pin pages from currently-opened board page
+    public IPage RandomPinPage = null;    // use for opening random pin page from the board page
+    //public List<IPage> RandomPinPages = new List<IPage>(); // use for opening random pin pages from currently-opened board page
     public HashSet<string> PinterestVisitedUrls = new HashSet<string>();
 
     public ControlBrowserPlaywright(PlaywrightTabManager tabManager)
@@ -270,7 +271,7 @@ public class ControlBrowserPlaywright
             await TabManager.SwitchActiveTabAsync(childPage);
             await SetRandomDelay(1, 4);
             await GotoPageAsync(DummyUrl,0,childPage);
-            RandomPinPages.Add(childPage);
+            RandomPinPage = childPage;
             await SetRandomDelay(1, 4);
             await ClosePinterestLogInDialogIfFoundAsync(childPage);
             await SetRandomDelay(1, 4);
@@ -299,7 +300,7 @@ public class ControlBrowserPlaywright
             if (_random.Next(0, 10) % 2 == 0)
             {
                 await TabManager.CloseTabAsync(childPage);
-                RandomPinPages.RemoveAt(RandomPinPages.Count - 1);
+                RandomPinPage = null;
                 await SetRandomDelay(1, 4);
             }
             
@@ -724,6 +725,28 @@ public class ControlBrowserPlaywright
         }
 
         return true;
+    }
+    
+    public async Task ScrollPage(ControlBrowserPlaywright controlBrowser, IPage page)
+    {
+        Random random = new Random();
+        
+        // allow 10% chance to scroll back up
+        if (random.Next(0, 10) == 9)
+        {
+            bool hasScrolledUp = await controlBrowser.ScrollUpPageAsync(page);
+
+            if (!hasScrolledUp)
+            {
+                await controlBrowser.ScrollDownPageAsync(page);
+            }
+        }
+        else
+        {
+            await controlBrowser.ScrollDownPageAsync(page);
+        }
+        
+        await controlBrowser.SetRandomDelay(1,4);
     }
     
     // needs to be asynchronous for gui-based app
