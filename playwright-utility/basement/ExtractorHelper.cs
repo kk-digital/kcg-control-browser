@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using HtmlAgilityPack;
 using ImageMagick;
-using xlibHttpServer;
+using XlibHttpServer;
 
 namespace Utility;
 
@@ -24,7 +24,7 @@ public class ExtractorHelper
     {
         Interlocked.Increment(ref _downloadedImageCount);
     }
-    
+
     // create image file from byte array
     public static void SaveImageBytesToFile(byte[] imageBytes, string outputPath)
     {
