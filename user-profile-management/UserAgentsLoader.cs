@@ -45,4 +45,32 @@ public class UserAgentsLoader
 
         return userAgentList.ToArray();
     }
+    
+    public static string DetectBrowser(string userAgent)
+    {
+        if (userAgent.Contains("Edg/") || userAgent.Contains("Edge/"))
+        {
+            return "Edge";
+        }
+        else if (userAgent.Contains("OPR/") || userAgent.Contains("Opera"))
+        {
+            return "Opera";
+        }
+        else if (userAgent.Contains("Chrome/") && !userAgent.Contains("Edg/") && !userAgent.Contains("OPR/"))
+        {
+            return "Chrome";
+        }
+        else if (userAgent.Contains("Firefox/"))
+        {
+            return "Firefox";
+        }
+        else if (userAgent.Contains("Safari/") && !userAgent.Contains("Chrome/") && !userAgent.Contains("Chromium"))
+        {
+            return "Safari";
+        }
+        else
+        {
+            return "Unknown";
+        }
+    }
 }
