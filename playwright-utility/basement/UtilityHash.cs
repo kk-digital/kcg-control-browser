@@ -6,7 +6,7 @@ namespace Utility;
 
 public class UtilityHash {
     
-    // use for deduplication entries into parquet files
+    // use for deduplicating entries into parquet files
     // Implementing the interface IEquatable<DigestKey> serves an important purpose related to efficient and correct equality comparison
     public readonly struct DigestKey : IEquatable<DigestKey>
     {
@@ -62,6 +62,13 @@ public class UtilityHash {
         }
     }
     
+    public static bool EqualByteArray(byte[] a1, byte[] a2)
+    {
+        if (a1 == null || a2 == null || a1.Length != a2.Length)
+            return false;
+        return a1.AsSpan().SequenceEqual(a2);
+    }
+    
     public static DigestKey HexStringToDigestKey(string hex)
     {
         // Check if the input hex string is null and throw an exception if so
@@ -115,6 +122,24 @@ public class UtilityHash {
         
             // Wrap the raw hash bytes in a DigestKey struct for efficient use as a dictionary key
             return new DigestKey(hash);
+        }
+        catch (Exception ex)
+        {
+            // Log any exception that occurs during hashing
+            LibLog.LogError(ex.Message);
+        
+            // Return the default DigestKey (empty) on error to avoid breaking the flow
+            return default;
+        }
+    }
+    
+    public static byte[] GenerateBlake2b256FastByteArray(byte[] fileBytes)
+    {
+        try
+        {
+            // Compute a 32-byte Blake2b hash from the input byte array (fileBytes)
+            byte[] hash = Blake2b.ComputeHash(32, fileBytes);
+            return hash;
         }
         catch (Exception ex)
         {
