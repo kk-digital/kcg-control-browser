@@ -28,7 +28,7 @@ public class PlaywrightProxyAndWorkerConfig
     [JsonInclude]
     [Required]
     public bool Headless;
-    
+
     [JsonInclude]
     [Required]
     public bool UseProxy;
@@ -41,7 +41,7 @@ public class PlaywrightProxyAndWorkerConfig
     [JsonInclude]
     [Required]
     public string UserProfilesDirPath;      // path to a folder where browser context user profiles are stored
-    
+
     [JsonInclude]
     [Required]
     public bool StoreCookies;

@@ -1,4 +1,4 @@
-﻿using lib;
+﻿using XlibUid;
 using Microsoft.Playwright;
 
 namespace playwright_browser_automation

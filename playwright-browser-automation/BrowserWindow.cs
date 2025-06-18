@@ -1,4 +1,4 @@
-﻿using lib;
+﻿using XlibUid;
 using Microsoft.Playwright;
 
 namespace playwright_browser_automation;
@@ -27,7 +27,7 @@ public class BrowserWindow
     // The unique identifier of the currently active tab in this window.
     // Uid64.Default indicates that no tab is currently active.
     public Uid64 ActiveTabId = Uid64.Default;
-    
+
     // manage network requests
     RequestManager RequestManager = new RequestManager();
 

@@ -40,7 +40,7 @@ public class PlaywrightProxyManager
                     {Environment.NewLine}ip address:port:username:password
                     {Environment.NewLine}eg.
                     {Environment.NewLine}178.101.46.13:5000:user1:lkjerpofgejs");
-          
+
             return null;
         }
         else if (_proxies.Count == 1)
@@ -53,7 +53,7 @@ public class PlaywrightProxyManager
                 LibLog.LogWarning($@"Proxy with IP {proxyInstance.IP} doesn't seem to be working");
                 return null;
             }
-            
+
             _activeProxyIndex = 0;
             _proxies[_activeProxyIndex].Status = PlaywrightProxyInstance.ProxyStatus.NOT_AVAILABLE;
             return _proxies[_activeProxyIndex];
@@ -63,14 +63,14 @@ public class PlaywrightProxyManager
         {
             if (_proxies[n].Status == PlaywrightProxyInstance.ProxyStatus.AVAILABLE)
             {
-                
+
                 if (!PlaywrightProxyChecker.IsProxyWorking(_proxies[n].IP, _proxies[n].Port, _proxies[n].Username,
                         _proxies[n].Password))
                 {
                     LibLog.LogWarning($@"Proxy with IP {_proxies[n].IP} doesn't seem to be working");
                     continue;
                 }
-                
+
                 _proxies[n].Status = PlaywrightProxyInstance.ProxyStatus.NOT_AVAILABLE;
                 _activeProxyIndex = n;
                 return _proxies[n];
@@ -106,11 +106,11 @@ public class PlaywrightProxyManager
             string[] lines = fileContent.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
 
             _proxies.Clear();
-            
+
             for (int i = 0; i < lines.Length; i++)
             {
                 string line = lines[i];
-    
+
                 if (string.IsNullOrEmpty(line))
                 {
                     break;
@@ -144,7 +144,7 @@ public class PlaywrightProxyManager
             return false;
         }
     }
-    
+
     void Shuffle(List<PlaywrightProxyInstance> list)
     {
         Random random = new();
