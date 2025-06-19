@@ -1,59 +1,63 @@
 <Project>
-    <PropertyGroup>
-        <BuildStartTimeUtc>$([System.DateTime]::UtcNow)</BuildStartTimeUtc>
+    <PropertyGroup Condition="'$(SkipCustomTargets)' != 'true'">
         <KcgXlibPath>$(MSBuildThisFileDirectory)..\kcg-xlib</KcgXlibPath>
         <BuildLogProjectPath>$(KcgXlibPath)\build-log\build-log.csproj</BuildLogProjectPath>
         <BuildLogClientProjectPath>$(KcgXlibPath)\build-log-client\build-log-client.csproj</BuildLogClientProjectPath>
         <BuildLogConfiguration>Debug</BuildLogConfiguration>
-        <BuildLogTargetFramework>net7.0</BuildLogTargetFramework>
+        <BuildLogTargetFramework>net8.0</BuildLogTargetFramework>
         <BuildLogOutputPath>$(MSBuildThisFileDirectory)build\pre-build\build-log\$(BuildLogConfiguration)\$(BuildLogTargetFramework)\</BuildLogOutputPath>
         <BuildLogDllPath>$(BuildLogOutputPath)build-log.dll</BuildLogDllPath>
         <BuildLogClientDllPath>$(BuildLogOutputPath)build-log-client.dll</BuildLogClientDllPath>
+        <BuildStartTimeUtc>$([System.DateTime]::UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"))</BuildStartTimeUtc>
     </PropertyGroup>
 
-    <Target Name="ShowMSBuildThisFileDirectory">
+    <Target Name="ShowMSBuildThisFileDirectory"
+            BeforeTargets="Build"
+            Condition="'$(SkipCustomTargets)' != 'true'">
         <Message Text="MSBuildThisFileDirectory=$(MSBuildThisFileDirectory)" Importance="High" />
     </Target>
 
-    <!-- Target to build the build-log project only if DLL is missing -->
     <Target Name="EnsureBuildLogBuilt"
-            Condition="!Exists('$(BuildLogDllPath)')">
+            Condition="'$(SkipCustomTargets)' != 'true' and !Exists('$(BuildLogDllPath)')"
+            BeforeTargets="Build">
         <MSBuild Projects="$(BuildLogProjectPath)"
                  Targets="Build"
                  Properties="Configuration=$(BuildLogConfiguration);TargetFramework=$(BuildLogTargetFramework);OutputPath=$(BuildLogOutputPath)" />
     </Target>
 
-    <!-- Target to build the build-log-client project only if DLL is missing -->
     <Target Name="EnsureBuildLogClientBuilt"
-            Condition="!Exists('$(BuildLogClientDllPath)')">
+            Condition="'$(SkipCustomTargets)' != 'true' and !Exists('$(BuildLogClientDllPath)')"
+            BeforeTargets="Build">
         <MSBuild Projects="$(BuildLogClientProjectPath)"
                  Targets="Build"
                  Properties="Configuration=$(BuildLogConfiguration);TargetFramework=$(BuildLogTargetFramework);OutputPath=$(BuildLogOutputPath)" />
     </Target>
 
-    <!-- Register and run DisableTelemetry only after ensuring DLL exists -->
-    <UsingTask TaskName="MyTasks.DisableTelemetryTask" AssemblyFile="$(BuildLogDllPath)" />
+    <!-- UsingTask: Condition attribute supported on MSBuild >= 16.8; otherwise, always declares it -->
+    <UsingTask TaskName="BuildLog.DisableTelemetryTask"
+               AssemblyFile="$(BuildLogDllPath)"
+               Condition="'$(SkipCustomTargets)' != 'true'" />
+    <UsingTask TaskName="BuildLog.BuildLogTask"
+               AssemblyFile="$(BuildLogDllPath)"
+               Condition="'$(SkipCustomTargets)' != 'true'" />
 
     <Target Name="RunDisableTelemetryTask"
             BeforeTargets="Build"
             DependsOnTargets="EnsureBuildLogBuilt;EnsureBuildLogClientBuilt"
-            Condition="Exists('$(BuildLogDllPath)') And Exists('$(BuildLogClientDllPath)')">
-        <MyTasks.DisableTelemetryTask />
+            Condition="'$(SkipCustomTargets)' != 'true' and Exists('$(BuildLogDllPath)') and Exists('$(BuildLogClientDllPath)')">
+        <BuildLog.DisableTelemetryTask />
     </Target>
-
-    <!-- Register and run BuildLogTask only after ensuring DLL exists -->
-    <UsingTask TaskName="MyTasks.BuildLogTask" AssemblyFile="$(BuildLogDllPath)" />
 
     <Target Name="RunBuildLogTask"
             BeforeTargets="PostBuildEvent"
             DependsOnTargets="EnsureBuildLogBuilt;EnsureBuildLogClientBuilt"
-            Condition="Exists('$(BuildLogDllPath)') And Exists('$(BuildLogClientDllPath)')">
+            Condition="'$(SkipCustomTargets)' != 'true' and Exists('$(BuildLogDllPath)') and Exists('$(BuildLogClientDllPath)')">
         <PropertyGroup>
-            <BuildEndTimeUtc>$([System.DateTime]::UtcNow)</BuildEndTimeUtc>
+            <BuildEndTimeUtc>$([System.DateTime]::UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"))</BuildEndTimeUtc>
         </PropertyGroup>
-        <MyTasks.BuildLogTask
+        <BuildLog.BuildLogTask
                 EventName="BuildLog"
-                LogFile="$(KcgXlibPath)\build-log\data\logs-build\build-log.json"
+                LogFile="$(KcgXlibPath)\build-log\data\build-log.db"
                 BuildStart="$(BuildStartTimeUtc)"
                 BuildEnd="$(BuildEndTimeUtc)"
                 IsMainProject="$(IsMainProject)" />
